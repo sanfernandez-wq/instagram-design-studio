@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrousel Mundial 2026 — TILO Estudio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold:    #C4973A;
+  --gold-lt: #D4AB5A;
+  --cream:   #F7F3EE;
+  --warm:    #EDE8E0;
+  --black:   #111111;
+  --gray:    #888880;
+  --lgray:   #CCCCCC;
+}
+
+body {
+  background: #E8E4DC;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 48px 24px;
+}
+
+header {
+  text-align: center;
+  color: #666;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  line-height: 2;
+}
+
+/* ── WRAPPER ── */
+.slide-wrapper {
+  position: relative;
+  width: 504px;
+  height: 504px;
+}
+.slide-label {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #999;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ── SLIDE BASE ── */
+.slide {
+  width: 1080px;
+  height: 1080px;
+  transform-origin: top left;
+  transform: scale(0.4667);   /* 504/1080 */
+  position: absolute;
+  top: 0; left: 0;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── TILO diagonal stripe (replicando el logo) ── */
+.tilo-stripe {
+  background: repeating-linear-gradient(
+    45deg,
+    transparent 0px,
+    transparent 14px,
+    currentColor 14px,
+    currentColor 17px
+  );
+}
+
+/* ══════════════════════════════════════
+   SLIDE 1 — PORTADA
+══════════════════════════════════════ */
+.s1 {
+  background: var(--cream);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 72px 80px 68px;
+}
+
+/* Header bar */
+.s1-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 60px;
+  border-bottom: 1.5px solid var(--lgray);
+}
+.s1-logo {
+  font-family: 'Inter', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 10px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.s1-tag {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: var(--gray);
+  text-transform: uppercase;
+}
+
+/* Centro */
+.s1-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 0;
+  position: relative;
+}
+
+.s1-eyebrow {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 6px;
+  color: var(--gray);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.s1-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 148px;
+  font-weight: 900;
+  line-height: 0.88;
+  color: var(--black);
+  letter-spacing: -3px;
+}
+.s1-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* Decorative stripe block (como las letras del logo) */
+.s1-deco {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 90px;
+  height: 260px;
+  color: rgba(196,151,58,0.15);
+  border: 3px solid rgba(196,151,58,0.2);
+}
+
+/* Footer */
+.s1-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 48px;
+  border-top: 1.5px solid var(--lgray);
+}
+.s1-sub {
+  font-size: 20px;
+  color: var(--gray);
+  letter-spacing: 2px;
+  font-weight: 400;
+}
+.s1-count {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--lgray);
+  letter-spacing: 4px;
+}
+
+/* ══════════════════════════════════════
+   SLIDES 2–6 — DATOS
+══════════════════════════════════════ */
+.sd {
+  background: var(--cream);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 72px 80px 68px;
+  position: relative;
+}
+
+.sd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 50px;
+  border-bottom: 1.5px solid var(--lgray);
+}
+.sd-dato-tag {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.sd-logo {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 8px;
+  color: var(--lgray);
+  text-transform: uppercase;
+}
+
+/* Big number area */
+.sd-body {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  padding: 20px 0;
+  position: relative;
+}
+
+.big-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 360px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--black);
+  letter-spacing: -8px;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+.big-n.gold { color: var(--gold); }
+
+/* Stripe decoration behind number */
+.num-deco {
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 420px;
+  height: 420px;
+  z-index: 1;
+  color: rgba(196,151,58,0.07);
+  border: 2.5px solid rgba(196,151,58,0.1);
+}
+
+.sd-text {
+  flex: 1;
+  z-index: 2;
+}
+.sd-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 54px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--black);
+  margin-bottom: 28px;
+  letter-spacing: -1px;
+}
+.sd-desc {
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--gray);
+  line-height: 1.55;
+}
+.sd-desc strong {
+  color: var(--black);
+  font-weight: 700;
+}
+
+/* Gold accent line */
+.gold-line {
+  width: 60px;
+  height: 4px;
+  background: var(--gold);
+  margin-bottom: 22px;
+}
+
+/* Footer */
+.sd-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 44px;
+  border-top: 1.5px solid var(--lgray);
+}
+.sd-tilo-com {
+  font-size: 17px;
+  color: var(--lgray);
+  letter-spacing: 3px;
+  font-weight: 400;
+}
+.sd-count {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--lgray);
+  letter-spacing: 4px;
+}
+
+/* Slide con big text (Curaçao) */
+.sd-body-v {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 0;
+  gap: 0;
+  position: relative;
+}
+.big-word {
+  font-family: 'Playfair Display', serif;
+  font-size: 174px;
+  font-weight: 900;
+  line-height: 0.88;
+  color: var(--black);
+  letter-spacing: -4px;
+  position: relative;
+  z-index: 2;
+}
+.big-word .number-sub {
+  font-size: 130px;
+  color: var(--gold);
+  display: block;
+}
+.big-word .hab {
+  font-family: 'Inter', sans-serif;
+  font-size: 52px;
+  font-weight: 300;
+  color: var(--lgray);
+  letter-spacing: 8px;
+  display: block;
+  margin-top: 8px;
+}
+
+.sd-mini-text {
+  margin-top: 28px;
+  z-index: 2;
+  position: relative;
+}
+.sd-mini-text .sd-title {
+  font-size: 44px;
+  margin-bottom: 16px;
+}
+.sd-mini-text .sd-desc {
+  font-size: 23px;
+}
+
+/* ══════════════════════════════════════
+   SLIDE 7 — CIERRE
+══════════════════════════════════════ */
+.s7 {
+  background: var(--black);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 72px 80px 68px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gold stripe overlay (sutil) */
+.s7::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent 0px,
+    transparent 34px,
+    rgba(196,151,58,0.04) 34px,
+    rgba(196,151,58,0.04) 37px
+  );
+  pointer-events: none;
+}
+
+.s7-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 50px;
+  border-bottom: 1.5px solid #2A2A2A;
+  position: relative;
+  z-index: 2;
+}
+.s7-logo {
+  font-family: 'Inter', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 10px;
+  color: var(--gold);
+}
+.s7-tag {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: #555;
+  text-transform: uppercase;
+}
+
+.s7-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.s7-question {
+  font-family: 'Playfair Display', serif;
+  font-size: 130px;
+  font-weight: 900;
+  line-height: 0.88;
+  color: #FFFFFF;
+  letter-spacing: -3px;
+  margin-bottom: 40px;
+}
+.s7-question em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.s7-cta {
+  font-size: 26px;
+  font-weight: 400;
+  color: #555;
+  letter-spacing: 2px;
+  line-height: 1.5;
+}
+.s7-cta strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* Big T deco (el logo T en bg) */
+.s7-t-deco {
+  position: absolute;
+  right: 40px;
+  bottom: 100px;
+  font-family: 'Inter', sans-serif;
+  font-size: 480px;
+  font-weight: 900;
+  color: rgba(196,151,58,0.04);
+  line-height: 1;
+  z-index: 1;
+  letter-spacing: -20px;
+}
+
+.s7-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 44px;
+  border-top: 1.5px solid #2A2A2A;
+  position: relative;
+  z-index: 2;
+}
+
+/* T logo SVG inline */
+.t-mark {
+  width: 48px;
+  height: 48px;
+}
+.s7-web {
+  font-size: 17px;
+  color: #444;
+  letter-spacing: 3px;
+  font-weight: 400;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  TILO Estudio — Carrousel Mundial 2026<br>
+  7 slides · Instagram 1080×1080 px · Escalado al 46% para previsualización<br>
+  Capturá cada slide con screenshot o usá un navegador a escala 100%
+</header>
+
+<!-- ══════════════════ SLIDE 1 — PORTADA ══════════════════ -->
+<div class="slide-wrapper">
+  <span class="slide-label">01 · Portada</span>
+  <div class="slide s1">
+    <div class="s1-topbar">
+      <div class="s1-logo">TILO</div>
+      <div class="s1-tag">⚽ Mundial 2026</div>
+    </div>
+
+    <div class="s1-center">
+      <div class="s1-deco tilo-stripe"></div>
+      <div class="s1-eyebrow">Lo que no sabías del</div>
+      <div class="s1-title">
+        MUN<br>
+        <em>DIAL</em><br>
+        2026
+      </div>
+    </div>
+
+    <div class="s1-footer">
+      <div class="s1-sub">7 datos que te van a sorprender →</div>
+      <div class="s1-count">01 / 07</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SLIDE 2 — 48 equipos ══════════════════ -->
+<div class="slide-wrapper">
+  <span class="slide-label">02 · Dato 1</span>
+  <div class="slide sd">
+    <div class="sd-header">
+      <div class="sd-dato-tag">Dato 01 — Historia</div>
+      <div class="sd-logo">TILO</div>
+    </div>
+
+    <div class="sd-body">
+      <div style="position:relative;flex-shrink:0;">
+        <div class="num-deco tilo-stripe"></div>
+        <div class="big-n gold">48</div>
+      </div>
+      <div class="sd-text">
+        <div class="gold-line"></div>
+        <div class="sd-title">El mundial más grande de la historia</div>
+        <div class="sd-desc">Por primera vez, <strong>48 selecciones</strong> disputaron una Copa del Mundo. Antes eran 32. En total: <strong>104 partidos.</strong></div>
+      </div>
+    </div>
+
+    <div class="sd-footer">
+      <div class="sd-tilo-com">tilo.com.ar</div>
+      <div class="sd-count">02 / 07</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SLIDE 3 — Curaçao ══════════════════ -->
+<div class="slide-wrapper">
+  <span class="slide-label">03 · Dato 2</span>
+  <div class="slide sd">
+    <div class="sd-header">
+      <div class="sd-dato-tag">Dato 02 — Récord</div>
+      <div class="sd-logo">TILO</div>
+    </div>
+
+    <div class="sd-body-v" style="position:relative;">
+      <!-- Deco stripe behind text -->
+      <div style="position:absolute;right:0;top:0;width:100px;height:100%;color:rgba(196,151,58,0.08);border:2px solid rgba(196,151,58,0.1);" class="tilo-stripe"></div>
+
+      <div class="big-word">
+        CURAÇAO
+        <span class="number-sub">158.000</span>
+        <span class="hab">habitantes</span>
+      </div>
+      <div class="sd-mini-text">
+        <div class="gold-line"></div>
+        <div class="sd-title" style="font-size:42px;">El país más chico<br>en la historia del Mundial</div>
+        <div class="sd-desc" style="font-size:22px;">Superó el récord de Islandia. De sus 26 jugadores, <strong>25 son hijos de la diáspora hacia Países Bajos.</strong></div>
+      </div>
+    </div>
+
+    <div class="sd-footer">
+      <div class="sd-tilo-com">tilo.com.ar</div>
+      <div class="sd-count">03 / 07</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SLIDE 4 — Messi 18 goles ══════════════════ -->
+<div class="slide-wrapper">
+  <span class="slide-label">04 · Dato 3</span>
+  <div class="slide sd">
+    <div class="sd-header">
+      <div class="sd-dato-tag">Dato 03 — Récord</div>
+      <div class="sd-logo">TILO</div>
+    </div>
+
+    <div class="sd-body">
+      <div style="position:relative;flex-shrink:0;">
+        <div class="num-deco tilo-stripe"></div>
+        <div class="big-n">18</div>
+      </div>
+      <div class="sd-text">
+        <div class="gold-line"></div>
+        <div class="sd-title">Messi, el máximo goleador de la historia</div>
+        <div class="sd-desc"><strong>18 goles en Mundiales.</strong> Rompió el récord y se convirtió en la referencia absoluta de la historia de la Copa del Mundo.</div>
+      </div>
+    </div>
+
+    <div class="sd-footer">
+      <div class="sd-tilo-com">tilo.com.ar</div>
+      <div class="sd-count">04 / 07</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SLIDE 5 — 6 Mundiales ══════════════════ -->
+<div class="slide-wrapper">
+  <span class="slide-label">05 · Dato 4</span>
+  <div class="slide sd">
+    <div class="sd-header">
+      <div class="sd-dato-tag">Dato 04 — Leyendas</div>
+      <div class="sd-logo">TILO</div>
+    </div>
+
+    <div class="sd-body">
+      <div style="position:relative;flex-shrink:0;">
+        <div class="num-deco tilo-stripe"></div>
+        <div class="big-n gold" style="font-size:460px;letter-spacing:-12px;">6</div>
+      </div>
+      <div class="sd-text">
+        <div class="gold-line"></div>
+        <div class="sd-title">Tres leyendas, seis mundiales</div>
+        <div class="sd-desc"><strong>Messi, Ronaldo y Ochoa</strong> jugaron su 6to Mundial. Un récord absoluto que ningún jugador había alcanzado antes.</div>
+      </div>
+    </div>
+
+    <div class="sd-footer">
+      <div class="sd-tilo-com">tilo.com.ar</div>
+      <div class="sd-count">05 / 07</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SLIDE 6 — 75 goles ══════════════════ -->
+<div class="slide-wrapper">
+  <span class="slide-label">06 · Dato 5</span>
+  <div class="slide sd">
+    <div class="sd-header">
+      <div class="sd-dato-tag">Dato 05 — Primera fecha</div>
+      <div class="sd-logo">TILO</div>
+    </div>
+
+    <div class="sd-body">
+      <div style="position:relative;flex-shrink:0;">
+        <div class="num-deco tilo-stripe" style="width:380px;height:380px;"></div>
+        <div class="big-n" style="font-size:310px;letter-spacing:-4px;">75</div>
+      </div>
+      <div class="sd-text">
+        <div class="gold-line"></div>
+        <div class="sd-title">75 goles en una sola jornada</div>
+        <div class="sd-desc"><strong>24 partidos, 75 goles y 5 autogoles.</strong> La primera fecha rompió todos los récords de una sola jornada en la historia.</div>
+      </div>
+    </div>
+
+    <div class="sd-footer">
+      <div class="sd-tilo-com">tilo.com.ar</div>
+      <div class="sd-count">06 / 07</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SLIDE 7 — CIERRE ══════════════════ -->
+<div class="slide-wrapper">
+  <span class="slide-label">07 · Cierre</span>
+  <div class="slide s7">
+    <div class="s7-t-deco">T</div>
+
+    <div class="s7-header">
+      <div class="s7-logo">TILO</div>
+      <div class="s7-tag">⚽ Mundial 2026</div>
+    </div>
+
+    <div class="s7-center">
+      <div class="s7-question">
+        ¿Cuál<br>
+        te <em>sor-</em><br>
+        <em>prendió</em><br>
+        más?
+      </div>
+      <div class="s7-cta">
+        Contanos en los comentarios 👇<br>
+        <strong>Guardá para no olvidar.</strong>
+      </div>
+    </div>
+
+    <div class="s7-footer">
+      <div class="s7-web">tilo.com.ar</div>
+      <!-- T mark SVG inline (geométrico, estilo logo TILO) -->
+      <svg class="t-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Simplified T with stripe fill -->
+        <rect x="2" y="2" width="44" height="12" fill="none" stroke="#C4973A" stroke-width="2"/>
+        <rect x="19" y="14" width="10" height="32" fill="none" stroke="#C4973A" stroke-width="2"/>
+        <!-- Diagonal stripes inside top bar -->
+        <clipPath id="topbar"><rect x="2" y="2" width="44" height="12"/></clipPath>
+        <g clip-path="url(#topbar)" opacity="0.5">
+          <line x1="0" y1="6" x2="10" y2="-4" stroke="#C4973A" stroke-width="1.5"/>
+          <line x1="6" y1="14" x2="22" y2="-2" stroke="#C4973A" stroke-width="1.5"/>
+          <line x1="16" y1="14" x2="32" y2="-2" stroke="#C4973A" stroke-width="1.5"/>
+          <line x1="26" y1="14" x2="42" y2="-2" stroke="#C4973A" stroke-width="1.5"/>
+          <line x1="36" y1="14" x2="52" y2="-2" stroke="#C4973A" stroke-width="1.5"/>
+          <line x1="46" y1="14" x2="56" y2="4" stroke="#C4973A" stroke-width="1.5"/>
+        </g>
+        <!-- Diagonal stripes inside stem -->
+        <clipPath id="stem"><rect x="19" y="14" width="10" height="32"/></clipPath>
+        <g clip-path="url(#stem)" opacity="0.5">
+          <line x1="14" y1="18" x2="24" y2="8" stroke="#C4973A" stroke-width="1.5"/>
+          <line x1="14" y1="28" x2="30" y2="12" stroke="#C4973A" stroke-width="1.5"/>
+          <line x1="14" y1="38" x2="30" y2="22" stroke="#C4973A" stroke-width="1.5"/>
+          <line x1="14" y1="48" x2="30" y2="32" stroke="#C4973A" stroke-width="1.5"/>
+          <line x1="18" y1="50" x2="30" y2="38" stroke="#C4973A" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
