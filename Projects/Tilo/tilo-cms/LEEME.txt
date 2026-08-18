@@ -1,0 +1,54 @@
+CMS de prueba — Tilo Estudio (versión local)
+==============================================
+
+Esta carpeta es una copia de la web tiloestudio.com.ar para probar un panel
+de administración, igual que el que armamos para Grupo MG. La web en vivo
+(tiloestudio.com.ar) NO se toca — esto corre en tu compu, aparte.
+
+Cómo probarlo
+--------------
+1. Abrí la Terminal (Mac: Spotlight > "Terminal").
+2. Escribí: cd
+   y arrastrá esta carpeta (tilo-cms) a la ventana de Terminal, después Enter.
+   (o escribí la ruta completa a mano)
+3. Ejecutá:  python3 server.py
+   Si tu Mac no tiene Python instalado, avisame y vemos una alternativa.
+4. Dejá esa ventana de Terminal abierta (ahí corre el servidor).
+5. Abrí en el navegador:
+     - Panel admin:  http://localhost:8788/admin.html
+     - Sitio:        http://localhost:8788/tiloestudio.html
+6. Editá lo que quieras y tocá "Guardar cambios" en cada sección — se
+   escribe en los archivos de data/. Recargá la pestaña del sitio para
+   ver los cambios reflejados.
+7. Para detener el servidor: volvé a la Terminal y apretá Ctrl+C.
+
+Qué pasa si abrís el sitio sin el servidor corriendo
+-----------------------------------------------------
+Se ve exactamente igual que la web en vivo hoy — no se rompe nada, solo
+no hay edición dinámica.
+
+Qué se puede editar
+---------------------
+1) Hero + Manifiesto — el bloque principal de la portada (foto, copete,
+   título, texto y botón) y el texto del manifiesto debajo. Es un solo
+   bloque de texto, no una lista: se edita directo en el formulario y se
+   guarda con un solo botón "Guardar cambios".
+
+2) Servicios — los 8 servicios que se ven en la sección "Servicios", cada
+   uno con: ícono (elegís de una lista de íconos ya hechos), título y
+   descripción (la que aparece al pasar el mouse). Mismo mecanismo que
+   en Grupo MG: ✎ editar, ↑ ↓ reordenar, + agregar, ✕ borrar.
+
+3) Proyectos — los casos de la sección "Proyectos" (portada, título,
+   categoría/tags y el link de "Ver proyecto"). El mosaico de fotos se
+   arma solo según el orden de la lista, en grupos de 6 — por eso
+   conviene mantener los proyectos en múltiplos de 6 para que el
+   colage se vea prolijo, aunque funciona igual con cualquier cantidad.
+
+Qué sigue
+---------
+Estas 3 secciones ya están funcionando. Esto es un CMS local de prueba:
+para que sea una versión "de producción" real (que edites desde
+cualquier lado, sin depender de tu compu, y que reemplace la web en
+vivo) haría falta migrarlo a hosting + base de datos, como charlamos
+para Grupo MG.
