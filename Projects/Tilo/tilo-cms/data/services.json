@@ -1,0 +1,12 @@
+{
+  "services": [
+    { "id": "s1", "title": "Branding", "description": "Creamos marcas desde el concepto hasta su implementación: nombre, identidad y todo eso que las vuelve inconfundibles.", "icon": "branding" },
+    { "id": "s2", "title": "Diseño Gráfico", "description": "Comunicación visual con criterio: piezas que dicen lo justo, lindas y pensadas para quien tiene que verlas.", "icon": "grafico" },
+    { "id": "s3", "title": "Diseño Digital", "description": "Webs, landings y micrositios pensados para que tu marca se luzca y funcione online.", "icon": "digital" },
+    { "id": "s4", "title": "Patterns Indumentaria", "description": "Diseñamos estampas y patterns originales para darle personalidad propia a tus colecciones.", "icon": "patterns" },
+    { "id": "s5", "title": "POP y Packaging", "description": "Material de punto de venta y packaging que enamora en la góndola y cuida cada detalle.", "icon": "packaging" },
+    { "id": "s6", "title": "Editorial", "description": "Catálogos, revistas y publicaciones con una puesta editorial cuidada, prolija y con ritmo.", "icon": "editorial" },
+    { "id": "s7", "title": "Estrategia", "description": "Antes de diseñar, pensamos: objetivos claros, rumbo definido y un plan con sentido.", "icon": "estrategia" },
+    { "id": "s8", "title": "Marketing Digital", "description": "Campañas y contenido que conectan con tu audiencia y mueven la aguja de verdad.", "icon": "marketing" }
+  ]
+}

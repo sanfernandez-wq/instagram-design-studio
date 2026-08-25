@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="papel">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Patterns y Estampas — Proyecto · Tilo Estudio</title>
+<meta name="description" content="Patterns y Estampas — diseño de estampas y patterns originales para indumentaria. Rapports, paletas y aplicaciones sobre prenda. Proyecto de Tilo Estudio." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_AR" />
+<meta property="og:site_name" content="Tilo Estudio" />
+<meta property="og:title" content="Patterns y Estampas · Tilo Estudio" />
+<meta property="og:description" content="Diseño de estampas y patterns originales para indumentaria." />
+<meta property="og:image" content="https://www.tiloestudio.com.ar/assets/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://www.tiloestudio.com.ar/assets/og-image.jpg" />
+<template id="__bundler_thumbnail" data-bg-color="#f9f9f6">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#f9f9f6"/>
+    <text x="600" y="420" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="120" font-style="italic" fill="#B8942A">Patterns</text>
+    <text x="600" y="500" text-anchor="middle" font-family="Hanken Grotesk, Arial, sans-serif" font-size="30" letter-spacing="8" fill="#1b1812">&amp; ESTAMPAS</text>
+  </svg>
+</template>
+<style>
+  .pat-page{background:var(--bg);color:var(--text)}
+  /* Top bar */
+  .pat-bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+    padding:18px clamp(20px,5vw,74px);background:color-mix(in oklab,var(--bg) 86%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .pat-bar .logo-svg{height:24px;width:auto;color:var(--text)}
+  .pat-back{display:inline-flex;align-items:center;gap:9px;font-family:'Hanken Grotesk',sans-serif;
+    font-size:13px;letter-spacing:.04em;color:var(--text);text-decoration:none;font-weight:400}
+  .pat-back .arr{transition:transform .3s var(--ease)}
+  .pat-back:hover .arr{transform:translateX(-4px)}
+  /* Project intro */
+  .pat-intro{max-width:1000px;margin:0 auto;padding:clamp(48px,8vw,96px) clamp(20px,5vw,74px) clamp(32px,5vw,56px);text-align:center}
+  .pat-eyebrow{display:block;font-family:'Hanken Grotesk',sans-serif;font-size:12px;letter-spacing:.28em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+  .pat-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;line-height:1.04;
+    font-size:clamp(2.6rem,7vw,5rem);margin:0}
+  .pat-title em{font-style:italic;color:var(--accent)}
+  .pat-lead{max-width:600px;margin:26px auto 0;font-family:'Hanken Grotesk',sans-serif;font-weight:300;
+    font-size:clamp(15px,1.6vw,18px);line-height:1.6;color:var(--muted)}
+  .pat-meta{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:center;margin-top:30px;
+    font-family:'Hanken Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;color:var(--muted)}
+  .pat-meta span{position:relative}
+  /* Sábana — full-bleed stacked images, no frames, no gaps */
+  .pat-sabana{display:block;width:100%}
+  .pat-sabana img{display:block;width:100%;height:auto;margin:0;border:0}
+  /* Footer */
+  .pat-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;
+    padding:clamp(44px,6vw,80px) clamp(20px,5vw,74px);border-top:1px solid var(--line)}
+  .pat-foot .fl{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;
+    font-size:clamp(1.5rem,3.5vw,2.3rem);color:var(--text)}
+  .pat-foot .fr{display:inline-flex;align-items:center;gap:10px;font-family:'Hanken Grotesk',sans-serif;
+    font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);text-decoration:none;font-weight:500}
+  .pat-foot .fr .arr{transition:transform .3s var(--ease)}
+  .pat-foot .fr:hover .arr{transform:translateX(5px)}
+</style>
+</head>
+<body class="pat-page">
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute" focusable="false"><symbol id="tilo-logo" viewBox="0 0 1349 463" fill="currentColor"></symbol></svg>
+
+<header class="pat-bar">
+  <a href="index.html#proyectos" class="pat-back"><span class="arr">←</span> Volver a proyectos</a>
+  <a href="index.html" aria-label="Tilo Estudio — inicio"><img class="logo-svg" src="assets/logo.svg" alt="Tilo Estudio" /></a>
+</header>
+
+<section class="pat-intro" data-screen-label="Patterns Intro">
+  <span class="pat-eyebrow">Patterns · Estampas · Indumentaria</span>
+  <h1 class="pat-title">Patterns y <em>Estampas</em></h1>
+  <p class="pat-lead">Diseñamos estampas y rapports originales, pensados para repetir sin costuras y darle personalidad propia a cada colección. De la paleta al mockup sobre prenda, con criterio textil de punta a punta.</p>
+  <div class="pat-meta">
+    <span>Diseño de rapports &amp; estampas</span>
+    <span>Paletas y bocetos</span>
+    <span>Aplicación sobre prenda</span>
+  </div>
+</section>
+
+<main class="pat-sabana" data-screen-label="Patterns Sábana">
+  <img loading="lazy" src="assets/patterns/01.webp" alt="Patterns y Estampas — estampa 01" />
+  <img loading="lazy" src="assets/patterns/02.webp" alt="Patterns y Estampas — estampa 02" />
+  <img loading="lazy" src="assets/patterns/03.webp" alt="Patterns y Estampas — estampa 03" />
+  <img loading="lazy" src="assets/patterns/04.webp" alt="Patterns y Estampas — estampa 04" />
+  <img loading="lazy" src="assets/patterns/05.webp" alt="Patterns y Estampas — estampa 05" />
+  <img loading="lazy" src="assets/patterns/06.webp" alt="Patterns y Estampas — estampa 06" />
+  <img loading="lazy" src="assets/patterns/07.webp" alt="Patterns y Estampas — estampa 07" />
+  <img loading="lazy" src="assets/patterns/08.webp" alt="Patterns y Estampas — estampa 08" />
+  <img loading="lazy" src="assets/patterns/09.webp" alt="Patterns y Estampas — estampa 09" />
+  <img loading="lazy" src="assets/patterns/10.webp" alt="Patterns y Estampas — estampa 10" />
+  <img loading="lazy" src="assets/patterns/11.webp" alt="Patterns y Estampas — estampa 11" />
+  <img loading="lazy" src="assets/patterns/12.webp" alt="Patterns y Estampas — estampa 12" />
+  <img loading="lazy" src="assets/patterns/13.webp" alt="Patterns y Estampas — estampa 13" />
+
+</main>
+
+<footer class="pat-foot" data-screen-label="Patterns Footer">
+  <span class="fl">¿Querés algo así para tu marca?</span>
+  <a href="index.html#contacto" class="fr">Hablemos <span class="arr">→</span></a>
+</footer>
+
+</body>
+</html>

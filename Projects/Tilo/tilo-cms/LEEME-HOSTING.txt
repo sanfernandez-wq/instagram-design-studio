@@ -1,0 +1,85 @@
+Cómo subir el CMS de Tilo Estudio a tu hosting
+================================================
+
+Esto reemplaza la versión de prueba local (server.py, en Python) por una
+que corre en cualquier hosting compartido con PHP — que es justo lo que
+tenés (Ferozo). El sitio y el panel quedan funcionando igual, con dos
+backends distintos según dónde estés:
+
+  - En tu compu:  server.py (Python)   → NO se sube al hosting
+  - En tu web:    api.php (PHP)         → SÍ se sube al hosting
+
+PASO 1 — Cambiar la contraseña del panel
+------------------------------------------
+Abrí el archivo config.php con un editor de texto (TextEdit sirve) y
+vas a ver esto:
+
+    'ADMIN_PASSWORD_HASH' => '$2y$12$....',
+
+Esa es la contraseña por defecto ("tilo2026"). Para poner la tuya,
+abrí la Terminal, pegá esto (cambiando "tu-contraseña-nueva" por la
+que quieras usar):
+
+    php -r "echo password_hash('tu-contraseña-nueva', PASSWORD_DEFAULT), PHP_EOL;"
+
+Te va a imprimir un código larguísimo que arranca con $2y$. Copialo
+completo y pegalo en config.php, reemplazando el que está entre
+comillas simples. Guardá el archivo, y subilo así ya con tu contraseña
+elegida (si ya subiste el de antes, subí este de nuevo para reemplazarlo).
+
+(Si tu compu no tiene PHP instalado, avisame y lo genero yo.)
+
+PASO 2 — Qué archivos subir
+--------------------------------------
+Por FTP o por el Administrador de Archivos de Ferozo, dentro de
+public_html:
+
+  Raíz de public_html:
+    .htaccess     ← imprescindible, sin esto /api/ no funciona (ojo:
+                    en Mac el Finder oculta los archivos que empiezan
+                    con punto — si no lo ves, mostralo con Cmd+Shift+.)
+    api.php
+    config.php
+    index.html    (reemplaza al que ya está)
+
+  Carpeta public_html/panel/ (creála si no existe):
+    admin.html
+    index.php     ← esta es la puerta de entrada con el login
+
+  Carpeta public_html/data/ (creála si no existe):
+    slides.json, manifesto.json, services.json, projects.json
+
+  Carpeta public_html/assets/ (ya existe):
+    cms.js, script.js, styles.css   (reemplazan a los que ya están)
+
+NO hace falta subir:
+    server.py, router-test.php    (solo sirven en tu compu)
+    LEEME.txt, LEEME-HOSTING.txt  (son para vos, no para el hosting)
+    Las 6 páginas de proyecto ni las fotos — esas ya están en tu hosting.
+
+PASO 3 — Cómo entrar al panel
+------------------------------------------
+Andá a tiloestudio.com.ar/panel/ — te va a pedir la contraseña de
+config.php (la del Paso 1) con un formulario de login propio. Una vez
+que entrás, esa sesión te queda guardada en ese navegador: podés
+guardar cambios en Servicios, Proyectos, etc. sin que te la vuelva a
+pedir, hasta que toques "Cerrar sesión" o cierres el navegador.
+
+(No hace falta configurar nada aparte en el panel de Ferozo — el login
+lo maneja el propio sitio, así que no depende de que tu hosting tenga
+una función de "privacidad de directorios" o no.)
+
+PASO 4 — Probar
+-------------------
+  - Entrá a tiloestudio.com.ar → tiene que verse exactamente igual
+    que hoy.
+  - Entrá a tiloestudio.com.ar/panel/ → te pide la contraseña; si la
+    ponés mal te avisa "Contraseña incorrecta" y te deja reintentar.
+  - Con la sesión iniciada, probá editar algo y "Guardar cambios" →
+    tiene que decir "Guardado ✓".
+  - Tocá "Cerrar sesión" arriba a la derecha y confirmá que te vuelve
+    a pedir la contraseña.
+
+Si algo no anda (por ejemplo /api/slides da error 404), lo más común
+es que falte el archivo .htaccess o que tu hosting tenga bloqueada esa
+función (se llama "mod_rewrite") — avisame y lo vemos juntas.

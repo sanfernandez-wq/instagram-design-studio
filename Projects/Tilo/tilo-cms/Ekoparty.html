@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="papel">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ekoparty — Enter the Metaverse · Tilo Estudio</title>
+<meta name="description" content="Ekoparty — Enter the Metaverse. Campaña y branding para la conferencia de seguridad informática. Proyecto de Tilo Estudio." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="es_AR" />
+<meta property="og:site_name" content="Tilo Estudio" />
+<meta property="og:title" content="Ekoparty — Enter the Metaverse · Tilo Estudio" />
+<meta property="og:description" content="Campaña y branding para la conferencia de seguridad informática más importante de Latinoamérica." />
+<meta property="og:image" content="https://www.tiloestudio.com.ar/assets/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://www.tiloestudio.com.ar/assets/og-image.jpg" />
+<template id="__bundler_thumbnail" data-bg-color="#f9f9f6">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#f9f9f6"/>
+    <text x="600" y="420" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="120" font-style="italic" fill="#B8942A">Ekoparty</text>
+    <text x="600" y="500" text-anchor="middle" font-family="Hanken Grotesk, Arial, sans-serif" font-size="26" letter-spacing="7" fill="#1b1812">ENTER THE METAVERSE</text>
+  </svg>
+</template>
+<style>
+  .eko-page{background:var(--bg);color:var(--text)}
+  /* Top bar */
+  .eko-bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+    padding:18px clamp(20px,5vw,74px);background:color-mix(in oklab,var(--bg) 86%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .eko-bar .logo-svg{height:24px;width:auto;color:var(--text)}
+  .eko-back{display:inline-flex;align-items:center;gap:9px;font-family:'Hanken Grotesk',sans-serif;
+    font-size:13px;letter-spacing:.04em;color:var(--text);text-decoration:none;font-weight:400}
+  .eko-back .arr{transition:transform .3s var(--ease)}
+  .eko-back:hover .arr{transform:translateX(-4px)}
+  /* Project intro */
+  .eko-intro{max-width:1000px;margin:0 auto;padding:clamp(48px,8vw,96px) clamp(20px,5vw,74px) clamp(32px,5vw,56px);text-align:center}
+  .eko-eyebrow{display:block;font-family:'Hanken Grotesk',sans-serif;font-size:12px;letter-spacing:.28em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+  .eko-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;line-height:1.04;
+    font-size:clamp(2.6rem,7vw,5rem);margin:0}
+  .eko-title em{font-style:italic;color:var(--accent)}
+  .eko-lead{max-width:600px;margin:26px auto 0;font-family:'Hanken Grotesk',sans-serif;font-weight:300;
+    font-size:clamp(15px,1.6vw,18px);line-height:1.6;color:var(--muted)}
+  .eko-meta{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:center;margin-top:30px;
+    font-family:'Hanken Grotesk',sans-serif;font-size:13px;letter-spacing:.04em;color:var(--muted)}
+  .eko-meta span{position:relative}
+  /* Sábana — full-bleed stacked images, no frames, no gaps */
+  .eko-sabana{display:block;width:100%}
+  .eko-sabana img{display:block;width:100%;height:auto;margin:0;border:0}
+  /* Footer */
+  .eko-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;
+    padding:clamp(44px,6vw,80px) clamp(20px,5vw,74px);border-top:1px solid var(--line)}
+  .eko-foot .fl{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;
+    font-size:clamp(1.5rem,3.5vw,2.3rem);color:var(--text)}
+  .eko-foot .fr{display:inline-flex;align-items:center;gap:10px;font-family:'Hanken Grotesk',sans-serif;
+    font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);text-decoration:none;font-weight:500}
+  .eko-foot .fr .arr{transition:transform .3s var(--ease)}
+  .eko-foot .fr:hover .arr{transform:translateX(5px)}
+</style>
+</head>
+<body class="eko-page">
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute" focusable="false"><symbol id="tilo-logo" viewBox="0 0 1349 463" fill="currentColor"></symbol></svg>
+
+<header class="eko-bar">
+  <a href="index.html#proyectos" class="eko-back"><span class="arr">←</span> Volver a proyectos</a>
+  <a href="index.html" aria-label="Tilo Estudio — inicio"><img class="logo-svg" src="assets/logo.svg" alt="Tilo Estudio" /></a>
+</header>
+
+<section class="eko-intro" data-screen-label="Ekoparty Intro">
+  <span class="eko-eyebrow">Campaña · Branding · Evento</span>
+  <h1 class="eko-title">Ekoparty <em>Enter the Metaverse</em></h1>
+  <p class="eko-lead">Identidad y campaña para la edición 2022 de la conferencia de seguridad informática más importante de Latinoamérica. Un sistema visual ciber, glitch y futurista que viajó del escenario a las redes sin perder fuerza.</p>
+  <div class="eko-meta">
+    <span>Dirección creativa &amp; campaña</span>
+    <span>Sistema visual del evento</span>
+    <span>Piezas para redes</span>
+  </div>
+</section>
+
+<main class="eko-sabana" data-screen-label="Ekoparty Sábana">
+  <img loading="lazy" src="assets/ekoparty/eko-01.webp" alt="Ekoparty 2022 — Enter the Metaverse, placa de apertura" />
+  <img loading="lazy" src="assets/ekoparty/eko-02.webp" alt="Ekoparty — escenario y pantalla principal del evento" />
+  <img loading="lazy" src="assets/ekoparty/eko-03.webp" alt="Ekoparty — grilla de piezas para redes sociales" />
+  <img loading="lazy" src="assets/ekoparty/eko-04.webp" alt="Ekoparty — credenciales, lanyards y merchandising oficial" />
+  <img loading="lazy" src="assets/ekoparty/eko-05.webp" alt="Ekoparty — remeras Enter the Metaverse sobre modelos" />
+  <img loading="lazy" src="assets/ekoparty/eko-06.webp" alt="Ekoparty — equipo del evento con la remera oficial" />
+  <img loading="lazy" src="assets/ekoparty/eko-07.webp" alt="Ekoparty — stickers oficiales de la edición 2022" />
+  <img loading="lazy" src="assets/ekoparty/eko-08.webp" alt="Ekoparty — pack de stickers y planchas de calcos" />
+  <img loading="lazy" src="assets/ekoparty/eko-09.webp" alt="Ekoparty — buzo canguro con logo bordado" />
+  <img loading="lazy" src="assets/ekoparty/eko-10.webp" alt="Ekoparty — medias estampadas de la colección" />
+</main>
+
+<footer class="eko-foot" data-screen-label="Ekoparty Footer">
+  <span class="fl">¿Querés algo así para tu marca?</span>
+  <a href="index.html#contacto" class="fr">Hablemos <span class="arr">→</span></a>
+</footer>
+
+</body>
+</html>

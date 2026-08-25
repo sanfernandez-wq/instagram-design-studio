@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de administración — Tilo Estudio</title>
+<style>
+  :root {
+    --ink: #1b1812;
+    --gold: #B8942A;
+    --gold-h: #a3810f;
+    --gold-lt: #D4AD47;
+    --gold-tint: #FBF4E1;
+    --off: #F9F9F6;
+    --border: #E5E1D6;
+    --muted: #6b6455;
+    --r: 8px;
+    --r-lg: 14px;
+    --good: #1f9d55;
+    --bad: #c0392b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--off); color: var(--ink);
+  }
+  header {
+    background: var(--ink); color: #fff;
+    padding: 20px 28px; display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 50;
+  }
+  header h1 { font-size: 17px; margin: 0; font-weight: 700; }
+  header .sub { font-size: 12.5px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+  header a.view-site {
+    color: var(--gold-lt); text-decoration: none; font-size: 13px; font-weight: 600;
+    border: 1px solid rgba(212,173,71,0.4); padding: 8px 14px; border-radius: 30px;
+  }
+  header a.view-site:hover { background: rgba(212,173,71,0.12); }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 28px 20px 80px; }
+
+  .banner {
+    background: #fff3ef; border: 1px solid #f3c9b6; color: #8a3a17;
+    padding: 14px 18px; border-radius: var(--r); font-size: 13.5px; margin-bottom: 20px; line-height: 1.6;
+    display: none;
+  }
+  .banner code {
+    background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 4px; font-family: Menlo, monospace;
+  }
+  .banner.show { display: block; }
+
+  .toolbar {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+  }
+  .toolbar h2 { font-size: 19px; margin: 0; font-family: Georgia, serif; }
+  .toolbar p { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+
+  .save-status { font-size: 12.5px; font-weight: 600; }
+  .save-status.ok { color: var(--good); }
+  .save-status.err { color: var(--bad); }
+  .save-status.dirty { color: #b8860b; }
+
+  .item-card {
+    display: flex; gap: 14px; background: #fff; border: 1px solid var(--border);
+    border-radius: var(--r-lg); padding: 14px; margin-bottom: 12px; align-items: center;
+  }
+  .item-card .thumb {
+    width: 96px; height: 64px; border-radius: 8px; background: var(--ink) center/cover no-repeat;
+    flex-shrink: 0; background-image: linear-gradient(135deg, #2a271f, #1b1812);
+    display: flex; align-items: center; justify-content: center; color: var(--gold-lt); font-size: 11px;
+  }
+  .item-card .info { flex: 1; min-width: 0; }
+  .item-card .info .eyebrow { font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); }
+  .item-card .info .title { font-size: 14.5px; font-weight: 700; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .item-card .info .text { font-size: 12.5px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .item-card .actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .item-card .actions button {
+    width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: #fff;
+    cursor: pointer; font-size: 14px; color: var(--ink); display: flex; align-items: center; justify-content: center;
+  }
+  .item-card .actions button:hover { background: var(--off); }
+  .item-card .actions button.danger:hover { background: #fdeceb; border-color: #f3b8b1; color: var(--bad); }
+  .item-card .actions button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .add-btn {
+    width: 100%; padding: 14px; border-radius: var(--r-lg); border: 1.5px dashed var(--border);
+    background: #fff; color: var(--gold-h); font-weight: 700; font-size: 13.5px; cursor: pointer; margin-top: 4px;
+  }
+  .add-btn:hover { background: var(--gold-tint); border-color: var(--gold); }
+
+  .save-bar {
+    background: #fff; border-top: 1px solid var(--border);
+    padding: 16px 4px; display: flex; align-items: center; justify-content: flex-end; gap: 14px;
+    margin-top: 14px;
+  }
+  .section-sep { border: none; border-top: 1px solid var(--border); margin: 44px 0 32px; }
+  .btn-primary {
+    background: var(--gold); color: #fff; border: none; padding: 11px 22px; border-radius: 30px;
+    font-size: 13.5px; font-weight: 700; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--gold-h); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .form-panel { background: #fff; border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px; }
+  .form-panel h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold-h); margin: 0 0 14px; }
+  .form-panel h3:not(:first-child) { margin-top: 28px; }
+
+  /* Modal */
+  .modal-bg {
+    display: none; position: fixed; inset: 0; background: rgba(27,24,18,0.5); z-index: 100;
+    align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto;
+  }
+  .modal-bg.show { display: flex; }
+  .modal {
+    background: #fff; border-radius: var(--r-lg); width: 100%; max-width: 560px; padding: 26px;
+  }
+  .modal h3 { margin: 0 0 18px; font-size: 17px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .field .hint { font-size: 11.5px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+  .field input[type=text], .field textarea, .field select {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;
+    font-family: inherit; color: var(--ink); background: #fff;
+  }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .img-upload {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .img-upload .preview {
+    width: 100px; height: 66px; border-radius: 8px; background: var(--off) center/cover no-repeat;
+    border: 1px solid var(--border); flex-shrink: 0;
+  }
+  .img-upload input[type=file] { font-size: 12.5px; }
+  .img-status { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+  .btn-ghost {
+    background: none; border: 1px solid var(--border); padding: 10px 18px; border-radius: 30px;
+    font-size: 13.5px; font-weight: 600; cursor: pointer; color: var(--ink);
+  }
+  .btn-ghost:hover { background: var(--off); }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Panel de administración — Tilo Estudio</h1>
+    <div class="sub">Hero, manifiesto, servicios y proyectos — versión de prueba local</div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <a class="view-site" href="../index.html" target="_blank">Ver sitio ↗</a>
+    <a class="view-site" href="index.php?logout=1">Cerrar sesión</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="banner" id="offlineBanner">
+    No se pudo conectar con el servidor local. Para que el panel funcione, abrí la Terminal, andá a la carpeta
+    <code>tilo-cms</code> y ejecutá <code>python3 server.py</code>. Después volvé a cargar esta página.
+  </div>
+
+  <div class="toolbar">
+    <div>
+      <h2>Hero (carrousel)</h2>
+      <p>Se muestran en este orden, rotando cada 7 segundos si hay más de uno, con puntitos para navegar. Con un solo slide queda fijo, sin rotar.</p>
+    </div>
+    <div class="save-status" id="slidesSaveStatus"></div>
+  </div>
+
+  <div id="slideList"></div>
+
+  <button class="add-btn" id="addSlideBtn">+ Agregar slide</button>
+
+  <div class="save-bar">
+    <button class="btn-primary" id="saveSlidesBtn" disabled>Guardar cambios</button>
+  </div>
+
+  <hr class="section-sep">
+
+  <div class="toolbar">
+    <div>
+      <h2>Manifiesto</h2>
+      <p>El texto fijo debajo del hero (no rota, es un solo bloque).</p>
+    </div>
+    <div class="save-status" id="manifestoSaveStatus"></div>
+  </div>
+
+  <div class="form-panel">
+    <div class="row2">
+      <div class="field">
+        <label>Título — línea 1</label>
+        <input type="text" id="h_m_title_line1" placeholder="Ej: Diseñamos con criterio,">
+      </div>
+      <div class="field">
+        <label>Título — línea destacada (cursiva)</label>
+        <input type="text" id="h_m_title_highlight" placeholder="Ej: construimos con propósito.">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Párrafo 1</label>
+      <textarea id="h_m_body1"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Párrafo 2</label>
+      <textarea id="h_m_body2"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Frase final</label>
+      <input type="text" id="h_m_sub" placeholder="Ej: Menos ruido. Más claridad. Más criterio.">
+    </div>
+  </div>
+
+  <div class="save-bar">
+    <button class="btn-primary" id="saveManifestoBtn" disabled>Guardar cambios</button>
+  </div>
+
+  <hr class="section-sep">
+
+  <div class="toolbar">
+    <div>
+      <h2>Servicios</h2>
+      <p>Se muestran en este orden. Cada uno tiene un ícono, un título y una descripción que aparece al pasar el mouse.</p>
+    </div>
+    <div class="save-status" id="srvSaveStatus"></div>
+  </div>
+
+  <div id="srvList"></div>
+
+  <button class="add-btn" id="addSrvBtn">+ Agregar servicio</button>
+
+  <div class="save-bar">
+    <button class="btn-primary" id="saveSrvBtn" disabled>Guardar cambios</button>
+  </div>
+
+  <hr class="section-sep">
+
+  <div class="toolbar">
+    <div>
+      <h2>Proyectos</h2>
+      <p>Se muestran en este orden en la grilla de "Nuestro trabajo". El mosaico se arma solo, en grupos de 6.</p>
+    </div>
+    <div class="save-status" id="projSaveStatus"></div>
+  </div>
+
+  <div id="projList"></div>
+
+  <button class="add-btn" id="addProjBtn">+ Agregar proyecto</button>
+
+  <div class="save-bar">
+    <button class="btn-primary" id="saveProjBtn" disabled>Guardar cambios</button>
+  </div>
+</div>
+
+<!-- Modal de edición: slide del hero -->
+<div class="modal-bg" id="slideModalBg">
+  <div class="modal">
+    <h3 id="slideModalTitle">Editar slide</h3>
+
+    <div class="field">
+      <label>Foto</label>
+      <div class="img-upload">
+        <div class="preview" id="slideImgPreview"></div>
+        <div>
+          <input type="file" id="slideImgInput" accept="image/*">
+          <div class="img-status" id="slideImgStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Copete (eyebrow)</label>
+      <input type="text" id="sl_eyebrow" placeholder="Ej: Diseño pensado estratégicamente">
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Título — línea 1</label>
+        <input type="text" id="sl_title_line1" placeholder="Ej: Menos ruido.">
+      </div>
+      <div class="field">
+        <label>Título — línea destacada (dorado, cursiva)</label>
+        <input type="text" id="sl_title_highlight" placeholder="Ej: Más criterio.">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Texto descriptivo</label>
+      <textarea id="sl_desc" placeholder="Texto breve debajo del título"></textarea>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Botón — texto</label>
+        <input type="text" id="sl_cta_label" placeholder="Ej: Quiero elevar mi marca">
+      </div>
+      <div class="field">
+        <label>Botón — link</label>
+        <input type="text" id="sl_cta_href" placeholder="#contacto">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-ghost" id="slideCancelBtn">Cancelar</button>
+      <button class="btn-primary" id="saveSlideItemBtn">Guardar slide</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de edición: servicio -->
+<div class="modal-bg" id="srvModalBg">
+  <div class="modal">
+    <h3 id="srvModalTitle">Editar servicio</h3>
+
+    <div class="field">
+      <label>Ícono</label>
+      <select id="s_icon">
+        <option value="branding">Círculos — Branding</option>
+        <option value="grafico">Lápiz — Diseño Gráfico</option>
+        <option value="digital">Pantallas — Diseño Digital</option>
+        <option value="patterns">Percha — Patterns</option>
+        <option value="packaging">Caja — POP y Packaging</option>
+        <option value="editorial">Libro — Editorial</option>
+        <option value="estrategia">Flechas — Estrategia</option>
+        <option value="marketing">Megáfono — Marketing</option>
+        <option value="generic">Estrella — genérico</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Título</label>
+      <input type="text" id="s_title" placeholder="Ej: Branding">
+    </div>
+
+    <div class="field">
+      <label>Descripción (aparece al pasar el mouse)</label>
+      <textarea id="s_desc" placeholder="Texto breve que explica el servicio"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-ghost" id="srvCancelBtn">Cancelar</button>
+      <button class="btn-primary" id="saveSrvItemBtn">Guardar servicio</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de edición: proyecto -->
+<div class="modal-bg" id="projModalBg">
+  <div class="modal">
+    <h3 id="projModalTitle">Editar proyecto</h3>
+
+    <div class="field">
+      <label>Imagen de portada</label>
+      <div class="img-upload">
+        <div class="preview" id="projImgPreview"></div>
+        <div>
+          <input type="file" id="projImgInput" accept="image/*">
+          <div class="img-status" id="projImgStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Título</label>
+      <input type="text" id="p_title" placeholder="Ej: Enriqueta Solari">
+    </div>
+
+    <div class="field">
+      <label>Categoría / tags (separados por " · ")</label>
+      <input type="text" id="p_subtitle" placeholder="Ej: Branding · Packaging · Contenido">
+    </div>
+
+    <div class="field">
+      <label>Link "Ver proyecto"</label>
+      <input type="text" id="p_href" placeholder="Ej: Enriqueta Solari.html o una URL">
+      <div class="hint">Cada proyecto ya tiene su propia página con su diseño real — este link apunta a esa página (ej. "Enriqueta Solari.html"). Para un proyecto nuevo sin página propia todavía, dejalo en #contacto.</div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-ghost" id="projCancelBtn">Cancelar</button>
+      <button class="btn-primary" id="saveProjItemBtn">Guardar proyecto</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Autenticación ──
+   En local (server.py) no hace falta nada. En el hosting real, todo
+   /panel/ queda detrás del login de panel/index.php (sesión de PHP);
+   como fetch() manda las cookies solas al ser mismo sitio, api.php ve
+   esa misma sesión sin que el JS tenga que mandar ninguna contraseña. */
+function adminHeaders(extra) { return extra || {}; }
+function forgetAdminKey() {}
+
+(function () {
+  /* ── HERO — SLIDES (lista, carrousel) ── */
+  var API = '/api/slides';
+  var UPLOAD_API = '/api/upload-image';
+  var slides = [];
+  var editingIndex = null;
+  var currentImagePath = '';
+  var dirty = false;
+
+  var offlineBanner = document.getElementById('offlineBanner');
+  var listEl = document.getElementById('slideList');
+  var addBtn = document.getElementById('addSlideBtn');
+  var saveBtn = document.getElementById('saveSlidesBtn');
+  var saveStatus = document.getElementById('slidesSaveStatus');
+
+  var modalBg = document.getElementById('slideModalBg');
+  var modalTitle = document.getElementById('slideModalTitle');
+  var imgInput = document.getElementById('slideImgInput');
+  var imgPreview = document.getElementById('slideImgPreview');
+  var imgStatus = document.getElementById('slideImgStatus');
+  var cancelBtn = document.getElementById('slideCancelBtn');
+  var saveItemBtn = document.getElementById('saveSlideItemBtn');
+
+  function setDirty(v) {
+    dirty = v;
+    saveBtn.disabled = !v;
+    if (v) { saveStatus.textContent = 'Cambios sin guardar'; saveStatus.className = 'save-status dirty'; }
+  }
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str == null ? '' : String(str);
+    return d.innerHTML;
+  }
+
+  function render() {
+    listEl.innerHTML = '';
+    slides.forEach(function (s, i) {
+      var card = document.createElement('div');
+      card.className = 'item-card';
+
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      if (s.image) thumb.style.backgroundImage = "url('" + s.image + "')";
+      card.appendChild(thumb);
+
+      var info = document.createElement('div');
+      info.className = 'info';
+      var titleOneLine = [s.title_line1, s.title_highlight].filter(Boolean).join(' ');
+      info.innerHTML =
+        '<div class="eyebrow">' + escapeHtml(s.eyebrow || '') + '</div>' +
+        '<div class="title">' + escapeHtml(titleOneLine || 'Sin título') + '</div>' +
+        '<div class="text">' + escapeHtml(s.desc || '') + '</div>';
+      card.appendChild(info);
+
+      var actions = document.createElement('div');
+      actions.className = 'actions';
+      var upBtn = btn('↑', function () { moveItem(i, -1); });
+      upBtn.disabled = i === 0;
+      var downBtn = btn('↓', function () { moveItem(i, 1); });
+      downBtn.disabled = i === slides.length - 1;
+      var editBtn = btn('✎', function () { openModal(i); });
+      var delBtn = btn('✕', function () { deleteItem(i); });
+      delBtn.classList.add('danger');
+      actions.appendChild(upBtn);
+      actions.appendChild(downBtn);
+      actions.appendChild(editBtn);
+      actions.appendChild(delBtn);
+      card.appendChild(actions);
+
+      listEl.appendChild(card);
+    });
+  }
+
+  function btn(label, onClick) {
+    var b = document.createElement('button');
+    b.textContent = label;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  function moveItem(i, dir) {
+    var j = i + dir;
+    if (j < 0 || j >= slides.length) return;
+    var tmp = slides[i]; slides[i] = slides[j]; slides[j] = tmp;
+    render(); setDirty(true);
+  }
+
+  function deleteItem(i) {
+    if (!confirm('¿Eliminar este slide?')) return;
+    slides.splice(i, 1);
+    render(); setDirty(true);
+  }
+
+  function openModal(index) {
+    editingIndex = index;
+    var s = index === null ? {} : slides[index];
+    modalTitle.textContent = index === null ? 'Agregar slide' : 'Editar slide';
+    document.getElementById('sl_eyebrow').value = s.eyebrow || '';
+    document.getElementById('sl_title_line1').value = s.title_line1 || '';
+    document.getElementById('sl_title_highlight').value = s.title_highlight || '';
+    document.getElementById('sl_desc').value = s.desc || '';
+    document.getElementById('sl_cta_label').value = s.cta_label || '';
+    document.getElementById('sl_cta_href').value = s.cta_href || '#contacto';
+    currentImagePath = s.image || '';
+    imgPreview.style.backgroundImage = currentImagePath ? "url('" + currentImagePath + "')" : 'none';
+    imgStatus.textContent = '';
+    imgInput.value = '';
+    modalBg.classList.add('show');
+  }
+
+  function closeModal() { modalBg.classList.remove('show'); editingIndex = null; }
+
+  addBtn.addEventListener('click', function () { openModal(null); });
+  cancelBtn.addEventListener('click', closeModal);
+  modalBg.addEventListener('click', function (e) { if (e.target === modalBg) closeModal(); });
+
+  imgInput.addEventListener('change', function () {
+    var file = imgInput.files[0];
+    if (!file) return;
+    imgStatus.textContent = 'Subiendo...';
+    var reader = new FileReader();
+    reader.onload = function () {
+      fetch(UPLOAD_API, {
+        method: 'POST',
+        headers: adminHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ dataUrl: reader.result, prefix: 'slide' })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error de subida'); }
+          currentImagePath = res.path;
+          imgPreview.style.backgroundImage = "url('" + res.path + "')";
+          imgStatus.textContent = 'Imagen subida ✓';
+        })
+        .catch(function (err) {
+          imgStatus.textContent = 'Error al subir: ' + err.message;
+        });
+    };
+    reader.readAsDataURL(file);
+  });
+
+  saveItemBtn.addEventListener('click', function () {
+    var title1 = document.getElementById('sl_title_line1').value.trim();
+    var highlight = document.getElementById('sl_title_highlight').value.trim();
+    if (!title1 && !highlight) { alert('Ingresá al menos un título para el slide.'); return; }
+    var item = {
+      id: (editingIndex !== null && slides[editingIndex] && slides[editingIndex].id) || ('slide-' + Date.now()),
+      image: currentImagePath,
+      eyebrow: document.getElementById('sl_eyebrow').value.trim(),
+      title_line1: title1,
+      title_highlight: highlight,
+      desc: document.getElementById('sl_desc').value.trim(),
+      cta_label: document.getElementById('sl_cta_label').value.trim(),
+      cta_href: document.getElementById('sl_cta_href').value.trim() || '#contacto'
+    };
+    if (editingIndex === null) slides.push(item); else slides[editingIndex] = item;
+    render(); setDirty(true); closeModal();
+  });
+
+  saveBtn.addEventListener('click', function () {
+    saveStatus.textContent = 'Guardando...';
+    saveStatus.className = 'save-status';
+    fetch(API, {
+      method: 'POST', headers: adminHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ slides: slides })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error al guardar'); }
+        saveStatus.textContent = 'Guardado ✓ — se refleja en el sitio al recargar';
+        saveStatus.className = 'save-status ok';
+        setDirty(false);
+      })
+      .catch(function (err) {
+        saveStatus.textContent = 'Error al guardar: ' + err.message;
+        saveStatus.className = 'save-status err';
+      });
+  });
+
+  function load() {
+    fetch(API)
+      .then(function (r) { if (!r.ok) throw new Error('server error'); return r.json(); })
+      .then(function (data) {
+        slides = (data && data.slides) || [];
+        offlineBanner.classList.remove('show');
+        render();
+      })
+      .catch(function () {
+        offlineBanner.classList.add('show');
+      });
+  }
+
+  load();
+})();
+
+(function () {
+  /* ── MANIFIESTO (objeto único, sin lista) ── */
+  var API = '/api/manifesto';
+  var manifesto = {};
+  var dirty = false;
+
+  var saveBtn = document.getElementById('saveManifestoBtn');
+  var saveStatus = document.getElementById('manifestoSaveStatus');
+
+  var fieldIds = {
+    title_line1: 'h_m_title_line1', title_highlight: 'h_m_title_highlight',
+    body1: 'h_m_body1', body2: 'h_m_body2', sub: 'h_m_sub'
+  };
+
+  function setDirty(v) {
+    dirty = v;
+    saveBtn.disabled = !v;
+    if (v) { saveStatus.textContent = 'Cambios sin guardar'; saveStatus.className = 'save-status dirty'; }
+  }
+
+  function fillForm() {
+    Object.keys(fieldIds).forEach(function (key) {
+      document.getElementById(fieldIds[key]).value = manifesto[key] || '';
+    });
+  }
+
+  Object.keys(fieldIds).forEach(function (key) {
+    document.getElementById(fieldIds[key]).addEventListener('input', function () { setDirty(true); });
+  });
+
+  saveBtn.addEventListener('click', function () {
+    var out = {};
+    Object.keys(fieldIds).forEach(function (key) {
+      out[key] = document.getElementById(fieldIds[key]).value.trim();
+    });
+    saveStatus.textContent = 'Guardando...';
+    saveStatus.className = 'save-status';
+    fetch(API, {
+      method: 'POST',
+      headers: adminHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ manifiesto: out })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error al guardar'); }
+        manifesto = out;
+        saveStatus.textContent = 'Guardado ✓ — se refleja en el sitio al recargar';
+        saveStatus.className = 'save-status ok';
+        setDirty(false);
+      })
+      .catch(function (err) {
+        saveStatus.textContent = 'Error al guardar: ' + err.message;
+        saveStatus.className = 'save-status err';
+      });
+  });
+
+  function load() {
+    fetch(API)
+      .then(function (r) { if (!r.ok) throw new Error('server error'); return r.json(); })
+      .then(function (data) {
+        manifesto = (data && data.manifiesto) || {};
+        fillForm();
+      })
+      .catch(function () {
+        // el aviso de "sin servidor" ya lo muestra el bloque de Hero
+      });
+  }
+
+  load();
+})();
+
+(function () {
+  /* ── SERVICIOS ── */
+  var API = '/api/services';
+  var services = [];
+  var editingIndex = null;
+  var dirty = false;
+
+  var listEl = document.getElementById('srvList');
+  var addBtn = document.getElementById('addSrvBtn');
+  var saveBtn = document.getElementById('saveSrvBtn');
+  var saveStatus = document.getElementById('srvSaveStatus');
+
+  var modalBg = document.getElementById('srvModalBg');
+  var modalTitle = document.getElementById('srvModalTitle');
+  var cancelBtn = document.getElementById('srvCancelBtn');
+  var saveItemBtn = document.getElementById('saveSrvItemBtn');
+
+  var ICON_LABELS = {
+    branding: 'Círculos — Branding', grafico: 'Lápiz — Diseño Gráfico', digital: 'Pantallas — Diseño Digital',
+    patterns: 'Percha — Patterns', packaging: 'Caja — POP y Packaging', editorial: 'Libro — Editorial',
+    estrategia: 'Flechas — Estrategia', marketing: 'Megáfono — Marketing', generic: 'Estrella — genérico'
+  };
+
+  function setDirty(v) {
+    dirty = v;
+    saveBtn.disabled = !v;
+    if (v) { saveStatus.textContent = 'Cambios sin guardar'; saveStatus.className = 'save-status dirty'; }
+  }
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str == null ? '' : String(str);
+    return d.innerHTML;
+  }
+
+  function render() {
+    listEl.innerHTML = '';
+    services.forEach(function (s, i) {
+      var card = document.createElement('div');
+      card.className = 'item-card';
+
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      thumb.textContent = String(i + 1).padStart(2, '0');
+      card.appendChild(thumb);
+
+      var info = document.createElement('div');
+      info.className = 'info';
+      info.innerHTML =
+        '<div class="eyebrow">' + escapeHtml(ICON_LABELS[s.icon] || 'genérico') + '</div>' +
+        '<div class="title">' + escapeHtml(s.title || '') + '</div>' +
+        '<div class="text">' + escapeHtml(s.description || '') + '</div>';
+      card.appendChild(info);
+
+      var actions = document.createElement('div');
+      actions.className = 'actions';
+      var upBtn = btn('↑', function () { moveItem(i, -1); });
+      upBtn.disabled = i === 0;
+      var downBtn = btn('↓', function () { moveItem(i, 1); });
+      downBtn.disabled = i === services.length - 1;
+      var editBtn = btn('✎', function () { openModal(i); });
+      var delBtn = btn('✕', function () { deleteItem(i); });
+      delBtn.classList.add('danger');
+      actions.appendChild(upBtn);
+      actions.appendChild(downBtn);
+      actions.appendChild(editBtn);
+      actions.appendChild(delBtn);
+      card.appendChild(actions);
+
+      listEl.appendChild(card);
+    });
+  }
+
+  function btn(label, onClick) {
+    var b = document.createElement('button');
+    b.textContent = label;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  function moveItem(i, dir) {
+    var j = i + dir;
+    if (j < 0 || j >= services.length) return;
+    var tmp = services[i]; services[i] = services[j]; services[j] = tmp;
+    render(); setDirty(true);
+  }
+
+  function deleteItem(i) {
+    if (!confirm('¿Eliminar este servicio?')) return;
+    services.splice(i, 1);
+    render(); setDirty(true);
+  }
+
+  function openModal(index) {
+    editingIndex = index;
+    var s = index === null ? {} : services[index];
+    modalTitle.textContent = index === null ? 'Agregar servicio' : 'Editar servicio';
+    document.getElementById('s_icon').value = s.icon || 'generic';
+    document.getElementById('s_title').value = s.title || '';
+    document.getElementById('s_desc').value = s.description || '';
+    modalBg.classList.add('show');
+  }
+
+  function closeModal() { modalBg.classList.remove('show'); editingIndex = null; }
+
+  addBtn.addEventListener('click', function () { openModal(null); });
+  cancelBtn.addEventListener('click', closeModal);
+  modalBg.addEventListener('click', function (e) { if (e.target === modalBg) closeModal(); });
+
+  saveItemBtn.addEventListener('click', function () {
+    var title = document.getElementById('s_title').value.trim();
+    if (!title) { alert('Ingresá un título para el servicio.'); return; }
+    var item = {
+      id: (editingIndex !== null && services[editingIndex] && services[editingIndex].id) || ('s-' + Date.now()),
+      title: title,
+      description: document.getElementById('s_desc').value.trim(),
+      icon: document.getElementById('s_icon').value
+    };
+    if (editingIndex === null) services.push(item); else services[editingIndex] = item;
+    render(); setDirty(true); closeModal();
+  });
+
+  saveBtn.addEventListener('click', function () {
+    saveStatus.textContent = 'Guardando...';
+    saveStatus.className = 'save-status';
+    fetch(API, {
+      method: 'POST', headers: adminHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ services: services })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error al guardar'); }
+        saveStatus.textContent = 'Guardado ✓ — se refleja en el sitio al recargar';
+        saveStatus.className = 'save-status ok';
+        setDirty(false);
+      })
+      .catch(function (err) {
+        saveStatus.textContent = 'Error al guardar: ' + err.message;
+        saveStatus.className = 'save-status err';
+      });
+  });
+
+  function load() {
+    fetch(API)
+      .then(function (r) { if (!r.ok) throw new Error('server error'); return r.json(); })
+      .then(function (data) { services = (data && data.services) || []; render(); })
+      .catch(function () { /* el aviso de "sin servidor" ya lo muestra el bloque de hero */ });
+  }
+
+  load();
+})();
+
+(function () {
+  /* ── PROYECTOS ── */
+  var API = '/api/projects';
+  var UPLOAD_API = '/api/upload-image';
+  var projects = [];
+  var editingIndex = null;
+  var currentImagePath = '';
+  var dirty = false;
+
+  var listEl = document.getElementById('projList');
+  var addBtn = document.getElementById('addProjBtn');
+  var saveBtn = document.getElementById('saveProjBtn');
+  var saveStatus = document.getElementById('projSaveStatus');
+
+  var modalBg = document.getElementById('projModalBg');
+  var modalTitle = document.getElementById('projModalTitle');
+  var imgInput = document.getElementById('projImgInput');
+  var imgPreview = document.getElementById('projImgPreview');
+  var imgStatus = document.getElementById('projImgStatus');
+  var cancelBtn = document.getElementById('projCancelBtn');
+  var saveItemBtn = document.getElementById('saveProjItemBtn');
+
+  function setDirty(v) {
+    dirty = v;
+    saveBtn.disabled = !v;
+    if (v) { saveStatus.textContent = 'Cambios sin guardar'; saveStatus.className = 'save-status dirty'; }
+  }
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str == null ? '' : String(str);
+    return d.innerHTML;
+  }
+
+  function render() {
+    listEl.innerHTML = '';
+    projects.forEach(function (p, i) {
+      var card = document.createElement('div');
+      card.className = 'item-card';
+
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      if (p.image) thumb.style.backgroundImage = "url('" + p.image + "')";
+      card.appendChild(thumb);
+
+      var info = document.createElement('div');
+      info.className = 'info';
+      info.innerHTML =
+        '<div class="eyebrow">' + escapeHtml(p.subtitle || '') + '</div>' +
+        '<div class="title">' + escapeHtml(p.title || 'Sin título') + '</div>' +
+        '<div class="text">' + escapeHtml(p.href || '') + '</div>';
+      card.appendChild(info);
+
+      var actions = document.createElement('div');
+      actions.className = 'actions';
+      var upBtn = btn('↑', function () { moveItem(i, -1); });
+      upBtn.disabled = i === 0;
+      var downBtn = btn('↓', function () { moveItem(i, 1); });
+      downBtn.disabled = i === projects.length - 1;
+      var editBtn = btn('✎', function () { openModal(i); });
+      var delBtn = btn('✕', function () { deleteItem(i); });
+      delBtn.classList.add('danger');
+      actions.appendChild(upBtn);
+      actions.appendChild(downBtn);
+      actions.appendChild(editBtn);
+      actions.appendChild(delBtn);
+      card.appendChild(actions);
+
+      listEl.appendChild(card);
+    });
+  }
+
+  function btn(label, onClick) {
+    var b = document.createElement('button');
+    b.textContent = label;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  function moveItem(i, dir) {
+    var j = i + dir;
+    if (j < 0 || j >= projects.length) return;
+    var tmp = projects[i]; projects[i] = projects[j]; projects[j] = tmp;
+    render(); setDirty(true);
+  }
+
+  function deleteItem(i) {
+    if (!confirm('¿Eliminar este proyecto?')) return;
+    projects.splice(i, 1);
+    render(); setDirty(true);
+  }
+
+  function openModal(index) {
+    editingIndex = index;
+    var p = index === null ? {} : projects[index];
+    modalTitle.textContent = index === null ? 'Agregar proyecto' : 'Editar proyecto';
+    document.getElementById('p_title').value = p.title || '';
+    document.getElementById('p_subtitle').value = p.subtitle || '';
+    document.getElementById('p_href').value = p.href || '#contacto';
+    currentImagePath = p.image || '';
+    imgPreview.style.backgroundImage = currentImagePath ? "url('" + currentImagePath + "')" : 'none';
+    imgStatus.textContent = '';
+    imgInput.value = '';
+    modalBg.classList.add('show');
+  }
+
+  function closeModal() { modalBg.classList.remove('show'); editingIndex = null; }
+
+  addBtn.addEventListener('click', function () { openModal(null); });
+  cancelBtn.addEventListener('click', closeModal);
+  modalBg.addEventListener('click', function (e) { if (e.target === modalBg) closeModal(); });
+
+  imgInput.addEventListener('change', function () {
+    var file = imgInput.files[0];
+    if (!file) return;
+    imgStatus.textContent = 'Subiendo...';
+    var reader = new FileReader();
+    reader.onload = function () {
+      fetch(UPLOAD_API, {
+        method: 'POST',
+        headers: adminHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ dataUrl: reader.result, prefix: 'proyecto' })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error de subida'); }
+          currentImagePath = res.path;
+          imgPreview.style.backgroundImage = "url('" + res.path + "')";
+          imgStatus.textContent = 'Imagen subida ✓';
+        })
+        .catch(function (err) {
+          imgStatus.textContent = 'Error al subir: ' + err.message;
+        });
+    };
+    reader.readAsDataURL(file);
+  });
+
+  saveItemBtn.addEventListener('click', function () {
+    var title = document.getElementById('p_title').value.trim();
+    if (!title) { alert('Ingresá un título para el proyecto.'); return; }
+    if (!currentImagePath) { alert('Subí una imagen de portada para el proyecto.'); return; }
+    var item = {
+      id: (editingIndex !== null && projects[editingIndex] && projects[editingIndex].id) || ('p-' + Date.now()),
+      title: title,
+      subtitle: document.getElementById('p_subtitle').value.trim(),
+      href: document.getElementById('p_href').value.trim() || '#contacto',
+      image: currentImagePath
+    };
+    if (editingIndex === null) projects.push(item); else projects[editingIndex] = item;
+    render(); setDirty(true); closeModal();
+  });
+
+  saveBtn.addEventListener('click', function () {
+    saveStatus.textContent = 'Guardando...';
+    saveStatus.className = 'save-status';
+    fetch(API, {
+      method: 'POST', headers: adminHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ projects: projects })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error al guardar'); }
+        saveStatus.textContent = 'Guardado ✓ — se refleja en el sitio al recargar';
+        saveStatus.className = 'save-status ok';
+        setDirty(false);
+      })
+      .catch(function (err) {
+        saveStatus.textContent = 'Error al guardar: ' + err.message;
+        saveStatus.className = 'save-status err';
+      });
+  });
+
+  function load() {
+    fetch(API)
+      .then(function (r) { if (!r.ok) throw new Error('server error'); return r.json(); })
+      .then(function (data) { projects = (data && data.projects) || []; render(); })
+      .catch(function () { /* el aviso de "sin servidor" ya lo muestra el bloque de hero */ });
+  }
+
+  load();
+})();
+</script>
+
+</body>
+</html>
