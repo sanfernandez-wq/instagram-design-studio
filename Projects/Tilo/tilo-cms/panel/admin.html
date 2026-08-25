@@ -146,9 +146,9 @@
 <header>
   <div>
     <h1>Panel de administración — Tilo Estudio</h1>
-    <div class="sub">Hero, servicios y proyectos — versión de prueba local</div>
+    <div class="sub">Hero, manifiesto, servicios y proyectos — versión de prueba local</div>
   </div>
-  <a class="view-site" href="tiloestudio.html" target="_blank">Ver sitio ↗</a>
+  <a class="view-site" href="../index.html" target="_blank">Ver sitio ↗</a>
 </header>
 
 <div class="wrap">
@@ -160,60 +160,31 @@
 
   <div class="toolbar">
     <div>
-      <h2>Hero + Manifiesto</h2>
-      <p>El bloque principal de la portada y el texto del manifiesto debajo.</p>
+      <h2>Hero (carrousel)</h2>
+      <p>Se muestran en este orden, rotando cada 7 segundos si hay más de uno, con puntitos para navegar. Con un solo slide queda fijo, sin rotar.</p>
     </div>
-    <div class="save-status" id="heroSaveStatus"></div>
+    <div class="save-status" id="slidesSaveStatus"></div>
+  </div>
+
+  <div id="slideList"></div>
+
+  <button class="add-btn" id="addSlideBtn">+ Agregar slide</button>
+
+  <div class="save-bar">
+    <button class="btn-primary" id="saveSlidesBtn" disabled>Guardar cambios</button>
+  </div>
+
+  <hr class="section-sep">
+
+  <div class="toolbar">
+    <div>
+      <h2>Manifiesto</h2>
+      <p>El texto fijo debajo del hero (no rota, es un solo bloque).</p>
+    </div>
+    <div class="save-status" id="manifestoSaveStatus"></div>
   </div>
 
   <div class="form-panel">
-    <h3>Hero</h3>
-
-    <div class="field">
-      <label>Foto del hero</label>
-      <div class="img-upload">
-        <div class="preview" id="heroImgPreview"></div>
-        <div>
-          <input type="file" id="heroImgInput" accept="image/*">
-          <div class="img-status" id="heroImgStatus"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Copete (eyebrow)</label>
-      <input type="text" id="h_eyebrow" placeholder="Ej: Diseño pensado estratégicamente">
-    </div>
-
-    <div class="row2">
-      <div class="field">
-        <label>Título — línea 1</label>
-        <input type="text" id="h_title_line1" placeholder="Ej: Menos ruido.">
-      </div>
-      <div class="field">
-        <label>Título — línea destacada (dorado, cursiva)</label>
-        <input type="text" id="h_title_highlight" placeholder="Ej: Más criterio.">
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Texto descriptivo</label>
-      <textarea id="h_desc" placeholder="Texto breve debajo del título"></textarea>
-    </div>
-
-    <div class="row2">
-      <div class="field">
-        <label>Botón — texto</label>
-        <input type="text" id="h_cta_label" placeholder="Ej: Quiero elevar mi marca">
-      </div>
-      <div class="field">
-        <label>Botón — link</label>
-        <input type="text" id="h_cta_href" placeholder="#contacto">
-      </div>
-    </div>
-
-    <h3>Manifiesto</h3>
-
     <div class="row2">
       <div class="field">
         <label>Título — línea 1</label>
@@ -242,7 +213,7 @@
   </div>
 
   <div class="save-bar">
-    <button class="btn-primary" id="saveHeroBtn" disabled>Guardar cambios</button>
+    <button class="btn-primary" id="saveManifestoBtn" disabled>Guardar cambios</button>
   </div>
 
   <hr class="section-sep">
@@ -279,6 +250,61 @@
 
   <div class="save-bar">
     <button class="btn-primary" id="saveProjBtn" disabled>Guardar cambios</button>
+  </div>
+</div>
+
+<!-- Modal de edición: slide del hero -->
+<div class="modal-bg" id="slideModalBg">
+  <div class="modal">
+    <h3 id="slideModalTitle">Editar slide</h3>
+
+    <div class="field">
+      <label>Foto</label>
+      <div class="img-upload">
+        <div class="preview" id="slideImgPreview"></div>
+        <div>
+          <input type="file" id="slideImgInput" accept="image/*">
+          <div class="img-status" id="slideImgStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Copete (eyebrow)</label>
+      <input type="text" id="sl_eyebrow" placeholder="Ej: Diseño pensado estratégicamente">
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Título — línea 1</label>
+        <input type="text" id="sl_title_line1" placeholder="Ej: Menos ruido.">
+      </div>
+      <div class="field">
+        <label>Título — línea destacada (dorado, cursiva)</label>
+        <input type="text" id="sl_title_highlight" placeholder="Ej: Más criterio.">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Texto descriptivo</label>
+      <textarea id="sl_desc" placeholder="Texto breve debajo del título"></textarea>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label>Botón — texto</label>
+        <input type="text" id="sl_cta_label" placeholder="Ej: Quiero elevar mi marca">
+      </div>
+      <div class="field">
+        <label>Botón — link</label>
+        <input type="text" id="sl_cta_href" placeholder="#contacto">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-ghost" id="slideCancelBtn">Cancelar</button>
+      <button class="btn-primary" id="saveSlideItemBtn">Guardar slide</button>
+    </div>
   </div>
 </div>
 
@@ -347,8 +373,8 @@
 
     <div class="field">
       <label>Link "Ver proyecto"</label>
-      <input type="text" id="p_href" placeholder="Ej: #contacto o una URL">
-      <div class="hint">Podés dejarlo apuntando a #contacto hasta tener la página del caso lista.</div>
+      <input type="text" id="p_href" placeholder="Ej: Enriqueta Solari.html o una URL">
+      <div class="hint">Cada proyecto ya tiene su propia página con su diseño real — este link apunta a esa página (ej. "Enriqueta Solari.html"). Para un proyecto nuevo sin página propia todavía, dejalo en #contacto.</div>
     </div>
 
     <div class="modal-actions">
@@ -359,27 +385,53 @@
 </div>
 
 <script>
+/* ── Contraseña del panel (solo en producción) ──
+   En localhost no pide nada (server.py no la valida). En el hosting
+   real (api.php) hace falta para cualquier POST: se pide una vez por
+   pestaña con prompt() y se guarda en sessionStorage. Si el servidor
+   responde 401, se borra para volver a pedirla en el próximo intento. */
+function isLocalAdmin() {
+  return /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
+}
+function adminHeaders(extra) {
+  var headers = extra || {};
+  if (isLocalAdmin()) return headers;
+  var key = sessionStorage.getItem('tilo_admin_key');
+  if (!key) {
+    key = window.prompt('Contraseña del panel de Tilo Estudio:') || '';
+    sessionStorage.setItem('tilo_admin_key', key);
+  }
+  var out = {};
+  Object.keys(headers).forEach(function (k) { out[k] = headers[k]; });
+  out['X-Admin-Key'] = key;
+  return out;
+}
+function forgetAdminKey() {
+  if (!isLocalAdmin()) sessionStorage.removeItem('tilo_admin_key');
+}
+
 (function () {
-  /* ── HERO + MANIFIESTO (objeto único, sin lista) ── */
-  var API = '/api/hero';
+  /* ── HERO — SLIDES (lista, carrousel) ── */
+  var API = '/api/slides';
   var UPLOAD_API = '/api/upload-image';
-  var hero = {};
+  var slides = [];
+  var editingIndex = null;
   var currentImagePath = '';
   var dirty = false;
 
   var offlineBanner = document.getElementById('offlineBanner');
-  var saveBtn = document.getElementById('saveHeroBtn');
-  var saveStatus = document.getElementById('heroSaveStatus');
-  var imgInput = document.getElementById('heroImgInput');
-  var imgPreview = document.getElementById('heroImgPreview');
-  var imgStatus = document.getElementById('heroImgStatus');
+  var listEl = document.getElementById('slideList');
+  var addBtn = document.getElementById('addSlideBtn');
+  var saveBtn = document.getElementById('saveSlidesBtn');
+  var saveStatus = document.getElementById('slidesSaveStatus');
 
-  var fieldIds = {
-    eyebrow: 'h_eyebrow', title_line1: 'h_title_line1', title_highlight: 'h_title_highlight',
-    desc: 'h_desc', cta_label: 'h_cta_label', cta_href: 'h_cta_href',
-    manifiesto_title_line1: 'h_m_title_line1', manifiesto_title_highlight: 'h_m_title_highlight',
-    manifiesto_body1: 'h_m_body1', manifiesto_body2: 'h_m_body2', manifiesto_sub: 'h_m_sub'
-  };
+  var modalBg = document.getElementById('slideModalBg');
+  var modalTitle = document.getElementById('slideModalTitle');
+  var imgInput = document.getElementById('slideImgInput');
+  var imgPreview = document.getElementById('slideImgPreview');
+  var imgStatus = document.getElementById('slideImgStatus');
+  var cancelBtn = document.getElementById('slideCancelBtn');
+  var saveItemBtn = document.getElementById('saveSlideItemBtn');
 
   function setDirty(v) {
     dirty = v;
@@ -387,17 +439,93 @@
     if (v) { saveStatus.textContent = 'Cambios sin guardar'; saveStatus.className = 'save-status dirty'; }
   }
 
-  function fillForm() {
-    Object.keys(fieldIds).forEach(function (key) {
-      document.getElementById(fieldIds[key]).value = hero[key] || '';
-    });
-    currentImagePath = hero.image || '';
-    imgPreview.style.backgroundImage = currentImagePath ? "url('" + currentImagePath + "')" : 'none';
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str == null ? '' : String(str);
+    return d.innerHTML;
   }
 
-  Object.keys(fieldIds).forEach(function (key) {
-    document.getElementById(fieldIds[key]).addEventListener('input', function () { setDirty(true); });
-  });
+  function render() {
+    listEl.innerHTML = '';
+    slides.forEach(function (s, i) {
+      var card = document.createElement('div');
+      card.className = 'item-card';
+
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      if (s.image) thumb.style.backgroundImage = "url('" + s.image + "')";
+      card.appendChild(thumb);
+
+      var info = document.createElement('div');
+      info.className = 'info';
+      var titleOneLine = [s.title_line1, s.title_highlight].filter(Boolean).join(' ');
+      info.innerHTML =
+        '<div class="eyebrow">' + escapeHtml(s.eyebrow || '') + '</div>' +
+        '<div class="title">' + escapeHtml(titleOneLine || 'Sin título') + '</div>' +
+        '<div class="text">' + escapeHtml(s.desc || '') + '</div>';
+      card.appendChild(info);
+
+      var actions = document.createElement('div');
+      actions.className = 'actions';
+      var upBtn = btn('↑', function () { moveItem(i, -1); });
+      upBtn.disabled = i === 0;
+      var downBtn = btn('↓', function () { moveItem(i, 1); });
+      downBtn.disabled = i === slides.length - 1;
+      var editBtn = btn('✎', function () { openModal(i); });
+      var delBtn = btn('✕', function () { deleteItem(i); });
+      delBtn.classList.add('danger');
+      actions.appendChild(upBtn);
+      actions.appendChild(downBtn);
+      actions.appendChild(editBtn);
+      actions.appendChild(delBtn);
+      card.appendChild(actions);
+
+      listEl.appendChild(card);
+    });
+  }
+
+  function btn(label, onClick) {
+    var b = document.createElement('button');
+    b.textContent = label;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  function moveItem(i, dir) {
+    var j = i + dir;
+    if (j < 0 || j >= slides.length) return;
+    var tmp = slides[i]; slides[i] = slides[j]; slides[j] = tmp;
+    render(); setDirty(true);
+  }
+
+  function deleteItem(i) {
+    if (!confirm('¿Eliminar este slide?')) return;
+    slides.splice(i, 1);
+    render(); setDirty(true);
+  }
+
+  function openModal(index) {
+    editingIndex = index;
+    var s = index === null ? {} : slides[index];
+    modalTitle.textContent = index === null ? 'Agregar slide' : 'Editar slide';
+    document.getElementById('sl_eyebrow').value = s.eyebrow || '';
+    document.getElementById('sl_title_line1').value = s.title_line1 || '';
+    document.getElementById('sl_title_highlight').value = s.title_highlight || '';
+    document.getElementById('sl_desc').value = s.desc || '';
+    document.getElementById('sl_cta_label').value = s.cta_label || '';
+    document.getElementById('sl_cta_href').value = s.cta_href || '#contacto';
+    currentImagePath = s.image || '';
+    imgPreview.style.backgroundImage = currentImagePath ? "url('" + currentImagePath + "')" : 'none';
+    imgStatus.textContent = '';
+    imgInput.value = '';
+    modalBg.classList.add('show');
+  }
+
+  function closeModal() { modalBg.classList.remove('show'); editingIndex = null; }
+
+  addBtn.addEventListener('click', function () { openModal(null); });
+  cancelBtn.addEventListener('click', closeModal);
+  modalBg.addEventListener('click', function (e) { if (e.target === modalBg) closeModal(); });
 
   imgInput.addEventListener('change', function () {
     var file = imgInput.files[0];
@@ -407,16 +535,15 @@
     reader.onload = function () {
       fetch(UPLOAD_API, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dataUrl: reader.result, prefix: 'hero' })
+        headers: adminHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ dataUrl: reader.result, prefix: 'slide' })
       })
         .then(function (r) { return r.json(); })
         .then(function (res) {
-          if (!res.ok) throw new Error(res.error || 'error de subida');
+          if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error de subida'); }
           currentImagePath = res.path;
           imgPreview.style.backgroundImage = "url('" + res.path + "')";
           imgStatus.textContent = 'Imagen subida ✓';
-          setDirty(true);
         })
         .catch(function (err) {
           imgStatus.textContent = 'Error al subir: ' + err.message;
@@ -425,22 +552,34 @@
     reader.readAsDataURL(file);
   });
 
+  saveItemBtn.addEventListener('click', function () {
+    var title1 = document.getElementById('sl_title_line1').value.trim();
+    var highlight = document.getElementById('sl_title_highlight').value.trim();
+    if (!title1 && !highlight) { alert('Ingresá al menos un título para el slide.'); return; }
+    var item = {
+      id: (editingIndex !== null && slides[editingIndex] && slides[editingIndex].id) || ('slide-' + Date.now()),
+      image: currentImagePath,
+      eyebrow: document.getElementById('sl_eyebrow').value.trim(),
+      title_line1: title1,
+      title_highlight: highlight,
+      desc: document.getElementById('sl_desc').value.trim(),
+      cta_label: document.getElementById('sl_cta_label').value.trim(),
+      cta_href: document.getElementById('sl_cta_href').value.trim() || '#contacto'
+    };
+    if (editingIndex === null) slides.push(item); else slides[editingIndex] = item;
+    render(); setDirty(true); closeModal();
+  });
+
   saveBtn.addEventListener('click', function () {
-    var out = { image: currentImagePath };
-    Object.keys(fieldIds).forEach(function (key) {
-      out[key] = document.getElementById(fieldIds[key]).value.trim();
-    });
     saveStatus.textContent = 'Guardando...';
     saveStatus.className = 'save-status';
     fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ hero: out })
+      method: 'POST', headers: adminHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ slides: slides })
     })
       .then(function (r) { return r.json(); })
       .then(function (res) {
-        if (!res.ok) throw new Error(res.error || 'error al guardar');
-        hero = out;
+        if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error al guardar'); }
         saveStatus.textContent = 'Guardado ✓ — se refleja en el sitio al recargar';
         saveStatus.className = 'save-status ok';
         setDirty(false);
@@ -455,12 +594,83 @@
     fetch(API)
       .then(function (r) { if (!r.ok) throw new Error('server error'); return r.json(); })
       .then(function (data) {
-        hero = (data && data.hero) || {};
+        slides = (data && data.slides) || [];
         offlineBanner.classList.remove('show');
-        fillForm();
+        render();
       })
       .catch(function () {
         offlineBanner.classList.add('show');
+      });
+  }
+
+  load();
+})();
+
+(function () {
+  /* ── MANIFIESTO (objeto único, sin lista) ── */
+  var API = '/api/manifesto';
+  var manifesto = {};
+  var dirty = false;
+
+  var saveBtn = document.getElementById('saveManifestoBtn');
+  var saveStatus = document.getElementById('manifestoSaveStatus');
+
+  var fieldIds = {
+    title_line1: 'h_m_title_line1', title_highlight: 'h_m_title_highlight',
+    body1: 'h_m_body1', body2: 'h_m_body2', sub: 'h_m_sub'
+  };
+
+  function setDirty(v) {
+    dirty = v;
+    saveBtn.disabled = !v;
+    if (v) { saveStatus.textContent = 'Cambios sin guardar'; saveStatus.className = 'save-status dirty'; }
+  }
+
+  function fillForm() {
+    Object.keys(fieldIds).forEach(function (key) {
+      document.getElementById(fieldIds[key]).value = manifesto[key] || '';
+    });
+  }
+
+  Object.keys(fieldIds).forEach(function (key) {
+    document.getElementById(fieldIds[key]).addEventListener('input', function () { setDirty(true); });
+  });
+
+  saveBtn.addEventListener('click', function () {
+    var out = {};
+    Object.keys(fieldIds).forEach(function (key) {
+      out[key] = document.getElementById(fieldIds[key]).value.trim();
+    });
+    saveStatus.textContent = 'Guardando...';
+    saveStatus.className = 'save-status';
+    fetch(API, {
+      method: 'POST',
+      headers: adminHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({ manifiesto: out })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error al guardar'); }
+        manifesto = out;
+        saveStatus.textContent = 'Guardado ✓ — se refleja en el sitio al recargar';
+        saveStatus.className = 'save-status ok';
+        setDirty(false);
+      })
+      .catch(function (err) {
+        saveStatus.textContent = 'Error al guardar: ' + err.message;
+        saveStatus.className = 'save-status err';
+      });
+  });
+
+  function load() {
+    fetch(API)
+      .then(function (r) { if (!r.ok) throw new Error('server error'); return r.json(); })
+      .then(function (data) {
+        manifesto = (data && data.manifiesto) || {};
+        fillForm();
+      })
+      .catch(function () {
+        // el aviso de "sin servidor" ya lo muestra el bloque de Hero
       });
   }
 
@@ -593,12 +803,12 @@
     saveStatus.textContent = 'Guardando...';
     saveStatus.className = 'save-status';
     fetch(API, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: adminHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ services: services })
     })
       .then(function (r) { return r.json(); })
       .then(function (res) {
-        if (!res.ok) throw new Error(res.error || 'error al guardar');
+        if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error al guardar'); }
         saveStatus.textContent = 'Guardado ✓ — se refleja en el sitio al recargar';
         saveStatus.className = 'save-status ok';
         setDirty(false);
@@ -739,12 +949,12 @@
     reader.onload = function () {
       fetch(UPLOAD_API, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: adminHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ dataUrl: reader.result, prefix: 'proyecto' })
       })
         .then(function (r) { return r.json(); })
         .then(function (res) {
-          if (!res.ok) throw new Error(res.error || 'error de subida');
+          if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error de subida'); }
           currentImagePath = res.path;
           imgPreview.style.backgroundImage = "url('" + res.path + "')";
           imgStatus.textContent = 'Imagen subida ✓';
@@ -775,12 +985,12 @@
     saveStatus.textContent = 'Guardando...';
     saveStatus.className = 'save-status';
     fetch(API, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: adminHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ projects: projects })
     })
       .then(function (r) { return r.json(); })
       .then(function (res) {
-        if (!res.ok) throw new Error(res.error || 'error al guardar');
+        if (!res.ok) { forgetAdminKey(); throw new Error(res.error || 'error al guardar'); }
         saveStatus.textContent = 'Guardado ✓ — se refleja en el sitio al recargar';
         saveStatus.className = 'save-status ok';
         setDirty(false);

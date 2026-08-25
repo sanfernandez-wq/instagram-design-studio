@@ -1,0 +1,7 @@
+# Tilo Estudio — CMS: enruta /api/<nombre> hacia api.php?name=<nombre>
+# (mismo esquema de URLs que usa server.py en local, así el sitio y el
+# panel funcionan sin cambios entre ambiente local y hosting real).
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/([a-zA-Z0-9_-]+)/?$ api.php?name=$1 [L,QSA]

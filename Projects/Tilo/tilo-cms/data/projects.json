@@ -1,10 +1,46 @@
 {
   "projects": [
-    { "id": "p1", "title": "Me Viste La Nona", "subtitle": "Contenido para Redes · Marketing", "image": "assets/mvn/portada.webp", "href": "Me Viste La Nona.html" },
-    { "id": "p2", "title": "Enriqueta Solari", "subtitle": "Branding · Packaging · Contenido", "image": "assets/enriqueta/portada.webp", "href": "Enriqueta Solari.html" },
-    { "id": "p3", "title": "Patterns y Estampas", "subtitle": "Patterns · Estampas · Indumentaria", "image": "assets/patterns/portada.webp", "href": "Patterns y Estampas.html" },
-    { "id": "p4", "title": "Zeocar", "subtitle": "Branding · Packaging · Editorial", "image": "assets/zeocar/portada-web.webp", "href": "Zeocar.html" },
-    { "id": "p5", "title": "Opsek", "subtitle": "Identidad de Marca · Branding", "image": "assets/opsek/portada.webp", "href": "Opsek.html" },
-    { "id": "p6", "title": "Ekoparty", "subtitle": "Campaña · Branding · Evento", "image": "assets/ekoparty/portada.webp", "href": "Ekoparty.html" }
+    {
+      "id": "p1",
+      "title": "Me Viste La Nona",
+      "subtitle": "Contenido para Redes · Marketing",
+      "image": "assets/mvn/portada.webp",
+      "href": "Me Viste La Nona.html"
+    },
+    {
+      "id": "p2",
+      "title": "Enriqueta Solari",
+      "subtitle": "Branding · Packaging · Contenido",
+      "image": "assets/enriqueta/portada.webp",
+      "href": "Enriqueta Solari.html"
+    },
+    {
+      "id": "p3",
+      "title": "Patterns y Estampas",
+      "subtitle": "Patterns · Estampas · Indumentaria",
+      "image": "assets/patterns/portada.webp",
+      "href": "Patterns y Estampas.html"
+    },
+    {
+      "id": "p4",
+      "title": "Zeocar",
+      "subtitle": "Branding · Packaging · Editorial",
+      "image": "assets/zeocar/portada-web.webp",
+      "href": "Zeocar.html"
+    },
+    {
+      "id": "p5",
+      "title": "Opsek",
+      "subtitle": "Identidad de Marca · Branding",
+      "image": "assets/opsek/portada.webp",
+      "href": "Opsek.html"
+    },
+    {
+      "id": "p6",
+      "title": "Ekoparty",
+      "subtitle": "Campaña · Branding · Evento",
+      "image": "assets/ekoparty/portada.webp",
+      "href": "Ekoparty.html"
+    }
   ]
 }

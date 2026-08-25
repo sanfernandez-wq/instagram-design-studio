@@ -15,8 +15,8 @@ Cómo probarlo
    Si tu Mac no tiene Python instalado, avisame y vemos una alternativa.
 4. Dejá esa ventana de Terminal abierta (ahí corre el servidor).
 5. Abrí en el navegador:
-     - Panel admin:  http://localhost:8788/admin.html
-     - Sitio:        http://localhost:8788/tiloestudio.html
+     - Panel admin:  http://localhost:8788/panel/admin.html
+     - Sitio:        http://localhost:8788/index.html
 6. Editá lo que quieras y tocá "Guardar cambios" en cada sección — se
    escribe en los archivos de data/. Recargá la pestaña del sitio para
    ver los cambios reflejados.
@@ -29,25 +29,34 @@ no hay edición dinámica.
 
 Qué se puede editar
 ---------------------
-1) Hero + Manifiesto — el bloque principal de la portada (foto, copete,
-   título, texto y botón) y el texto del manifiesto debajo. Es un solo
-   bloque de texto, no una lista: se edita directo en el formulario y se
-   guarda con un solo botón "Guardar cambios".
+1) Hero (carrousel) — el bloque principal de la portada: foto, copete,
+   título y botón. Podés cargar varios slides: con uno solo queda fijo
+   (como está hoy en vivo); con dos o más, rota solo cada 7 segundos con
+   un fundido suave y aparecen puntitos abajo a la derecha para navegar
+   a mano. Mismo mecanismo que Servicios/Proyectos: ✎ editar, ↑ ↓
+   reordenar, + agregar, ✕ borrar.
 
-2) Servicios — los 8 servicios que se ven en la sección "Servicios", cada
+2) Manifiesto — el texto fijo debajo del hero (título, dos párrafos y
+   la frase final). Es un solo bloque, no una lista: se edita directo
+   en el formulario y se guarda con un botón.
+
+3) Servicios — los 8 servicios que se ven en la sección "Servicios", cada
    uno con: ícono (elegís de una lista de íconos ya hechos), título y
-   descripción (la que aparece al pasar el mouse). Mismo mecanismo que
-   en Grupo MG: ✎ editar, ↑ ↓ reordenar, + agregar, ✕ borrar.
+   descripción (la que aparece al pasar el mouse).
 
-3) Proyectos — los casos de la sección "Proyectos" (portada, título,
-   categoría/tags y el link de "Ver proyecto"). El mosaico de fotos se
-   arma solo según el orden de la lista, en grupos de 6 — por eso
-   conviene mantener los proyectos en múltiplos de 6 para que el
-   colage se vea prolijo, aunque funciona igual con cualquier cantidad.
+4) Proyectos — la portada, título, categoría/tags y el link "Ver
+   proyecto" de cada caso en la sección "Proyectos". Importante: cada
+   proyecto (Me Viste La Nona, Enriqueta Solari, Patterns y Estampas,
+   Zeocar, Opsek, Ekoparty) ya tiene su propia página real con su
+   diseño individual — esas páginas (ej. "Enriqueta Solari.html") NO se
+   editan desde el panel, son archivos aparte con el diseño que ya
+   tenés hecho para cada una. El panel solo controla la tarjeta de la
+   grilla y a qué página apunta. Si agregás un proyecto nuevo sin
+   página propia todavía, dejá el link en #contacto hasta tenerla lista.
 
 Qué sigue
 ---------
-Estas 3 secciones ya están funcionando. Esto es un CMS local de prueba:
+Estas secciones ya están funcionando. Esto es un CMS local de prueba:
 para que sea una versión "de producción" real (que edites desde
 cualquier lado, sin depender de tu compu, y que reemplace la web en
 vivo) haría falta migrarlo a hosting + base de datos, como charlamos

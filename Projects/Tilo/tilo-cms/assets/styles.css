@@ -464,3 +464,12 @@ html[data-theme="tinta"] .logo-svg{filter:invert(1)}
 
 /* keep tweak panel readable regardless of theme */
 .twk-panel{color:#29261b !important}
+
+/* ── HERO CARROUSEL (CMS) ── */
+.hero-left,.hero-right-photo{transition:opacity .38s ease}
+.hero.is-transitioning .hero-left{opacity:0}
+.hero.is-transitioning .hero-right-photo{opacity:0 !important}
+.hero-dots{position:absolute;left:24px;bottom:24px;z-index:3;display:flex;gap:8px;align-items:center}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);border:none;cursor:pointer;padding:0;transition:background .25s,width .25s}
+.hero-dot:hover{background:rgba(255,255,255,.8)}
+.hero-dot.active{background:var(--gold);width:24px;border-radius:5px}

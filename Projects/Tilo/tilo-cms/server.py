@@ -8,8 +8,8 @@ Cómo usarlo:
   2. cd a esta carpeta (tilo-cms).
   3. Ejecutá: python3 server.py
   4. Abrí en el navegador:
-       - Sitio:  http://localhost:8788/tiloestudio.html
-       - Panel:  http://localhost:8788/admin.html
+       - Sitio:  http://localhost:8788/index.html
+       - Panel:  http://localhost:8788/panel/admin.html
   5. Para detener el servidor: Ctrl+C en la Terminal.
 """
 
@@ -28,7 +28,8 @@ IMG_DIR = os.path.join(ROOT, "assets")
 
 # Cada colección: endpoint -> (archivo json, clave esperada, tipo: "list" o "dict")
 COLLECTIONS = {
-    "hero": (os.path.join(DATA_DIR, "hero.json"), "hero", "dict"),
+    "slides": (os.path.join(DATA_DIR, "slides.json"), "slides", "list"),
+    "manifesto": (os.path.join(DATA_DIR, "manifesto.json"), "manifiesto", "dict"),
     "services": (os.path.join(DATA_DIR, "services.json"), "services", "list"),
     "projects": (os.path.join(DATA_DIR, "projects.json"), "projects", "list"),
 }
@@ -127,8 +128,8 @@ if __name__ == "__main__":
     os.makedirs(IMG_DIR, exist_ok=True)
     with http.server.ThreadingHTTPServer(("127.0.0.1", PORT), Handler) as httpd:
         print(f"Servidor corriendo en http://localhost:{PORT}")
-        print(f"  Sitio:  http://localhost:{PORT}/tiloestudio.html")
-        print(f"  Panel:  http://localhost:{PORT}/admin.html")
+        print(f"  Sitio:  http://localhost:{PORT}/index.html")
+        print(f"  Panel:  http://localhost:{PORT}/panel/admin.html")
         print("Presioná Ctrl+C para detenerlo.")
         try:
             httpd.serve_forever()

@@ -1,7 +1,8 @@
 /* TILO — CMS (versión local de prueba)
-   Lee data/hero.json, data/services.json y data/projects.json vía /api/*
-   si el servidor local (server.py) está corriendo. Si no hay servidor,
-   el sitio se ve exactamente igual que hoy: no rompe nada. */
+   Lee data/slides.json, data/manifesto.json, data/services.json y
+   data/projects.json vía /api/* si el servidor local (server.py) está
+   corriendo. Si no hay servidor, el sitio se ve exactamente igual que
+   hoy: no rompe nada. */
 (function () {
   'use strict';
 
@@ -14,44 +15,119 @@
     return String(str == null ? '' : str).replace(/"/g, '&quot;');
   }
 
-  /* ── HERO + MANIFIESTO ──
-     Objeto único (no es una lista): si hay servidor y hay datos, se
-     pisa el texto ya presente en el HTML. Si no, queda el actual. */
-  (function initHero() {
-    var API = '/api/hero';
-    fetch(API, { cache: 'no-store' })
+  /* ── HERO — CARROUSEL (CMS) ──
+     Arma el hero como carrousel desde data/slides.json vía /api/slides.
+     Con 1 slide se ve fijo (sin puntitos ni rotación). Con 2+, rota
+     cada 7s con fundido, con puntitos abajo a la derecha sobre la foto.
+     Sin servidor local, queda el contenido estático ya presente en el HTML. */
+  (function initHeroCarousel() {
+    var heroSection = document.querySelector('.hero');
+    if (!heroSection) return;
+    var leftEl = heroSection.querySelector('.hero-left');
+    var photoEl = document.getElementById('hero-photo');
+    var rightEl = heroSection.querySelector('.hero-right');
+    var dotsWrap = null;
+    var slides = [];
+    var current = 0;
+    var timer = null;
+    var AUTOPLAY_MS = 7000;
+
+    function buildLeftHtml(s) {
+      var titleHtml = escapeHtml(s.title_line1 || '') + '<br /><em>' + escapeHtml(s.title_highlight || '') + '</em>';
+      var html = '';
+      if (s.eyebrow) html += '<span class="hero-eyebrow">' + escapeHtml(s.eyebrow) + '</span>';
+      html += '<h1 class="hero-title">' + titleHtml + '</h1>';
+      if (s.desc) html += '<p class="hero-desc" style="font-size:20px;max-width:400px">' + escapeHtml(s.desc) + '</p>';
+      if (s.cta_label) html += '<a href="' + escapeAttr(s.cta_href || '#contacto') + '" class="btn-primary">' + escapeHtml(s.cta_label) + '</a>';
+      return html;
+    }
+
+    function applySlide(i) {
+      var s = slides[i];
+      if (!s || !leftEl) return;
+      leftEl.innerHTML = buildLeftHtml(s);
+      if (s.image && photoEl) photoEl.setAttribute('src', s.image);
+      heroSection.classList.remove('is-transitioning');
+      if (dotsWrap) {
+        Array.prototype.forEach.call(dotsWrap.children, function (d, di) {
+          d.classList.toggle('active', di === i);
+        });
+      }
+    }
+
+    function renderSlide(i, skipFade) {
+      if (skipFade) { applySlide(i); return; }
+      heroSection.classList.add('is-transitioning');
+      setTimeout(function () { applySlide(i); }, 390);
+    }
+
+    function goTo(i) {
+      current = (i + slides.length) % slides.length;
+      renderSlide(current);
+      resetTimer();
+    }
+
+    function resetTimer() {
+      if (timer) clearInterval(timer);
+      if (slides.length > 1) timer = setInterval(function () { goTo(current + 1); }, AUTOPLAY_MS);
+    }
+
+    function buildDots() {
+      if (dotsWrap) { dotsWrap.remove(); dotsWrap = null; }
+      if (slides.length <= 1 || !rightEl) return;
+      dotsWrap = document.createElement('div');
+      dotsWrap.className = 'hero-dots';
+      slides.forEach(function (_, i) {
+        var d = document.createElement('button');
+        d.className = 'hero-dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Ir al slide ' + (i + 1));
+        d.addEventListener('click', function () { goTo(i); });
+        dotsWrap.appendChild(d);
+      });
+      rightEl.appendChild(dotsWrap);
+    }
+
+    function start(loadedSlides) {
+      if (!loadedSlides || !loadedSlides.length) return;
+      slides = loadedSlides;
+      current = 0;
+      buildDots();
+      renderSlide(0, true);
+      resetTimer();
+      heroSection.addEventListener('mouseenter', function () { if (timer) clearInterval(timer); });
+      heroSection.addEventListener('mouseleave', resetTimer);
+    }
+
+    fetch('/api/slides', { cache: 'no-store' })
       .then(function (r) { if (!r.ok) throw new Error('sin servidor local'); return r.json(); })
       .then(function (data) {
-        var h = data && data.hero;
-        if (!h) return;
+        var s = (data && data.slides) || [];
+        if (s.length) start(s);
+      })
+      .catch(function () {
+        // sin servidor local: se conserva el contenido estático del HTML
+      });
+  })();
 
-        var eyebrow = document.getElementById('hero-eyebrow');
-        var title = document.getElementById('hero-title');
-        var desc = document.getElementById('hero-desc');
-        var cta = document.getElementById('hero-cta');
-        var photo = document.getElementById('hero-photo');
+  /* ── MANIFIESTO (CMS) ──
+     Objeto único: si hay servidor y hay datos, pisa el texto ya
+     presente en el HTML. Si no, queda el actual. */
+  (function initManifesto() {
+    fetch('/api/manifesto', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('sin servidor local'); return r.json(); })
+      .then(function (data) {
+        var m = data && data.manifiesto;
+        if (!m) return;
         var mTitle = document.getElementById('manifesto-title');
         var mBody1 = document.getElementById('manifesto-body1');
         var mBody2 = document.getElementById('manifesto-body2');
         var mSub = document.getElementById('manifesto-sub');
-
-        if (eyebrow && h.eyebrow) eyebrow.textContent = h.eyebrow;
-        if (title && (h.title_line1 || h.title_highlight)) {
-          title.innerHTML = escapeHtml(h.title_line1 || '') + '<br /><em>' + escapeHtml(h.title_highlight || '') + '</em>';
+        if (mTitle && (m.title_line1 || m.title_highlight)) {
+          mTitle.innerHTML = escapeHtml(m.title_line1 || '') + '<br /><em style="font-family:&quot;Cormorant Garamond&quot;">' + escapeHtml(m.title_highlight || '') + '</em>';
         }
-        if (desc && h.desc) desc.textContent = h.desc;
-        if (cta && h.cta_label) {
-          cta.textContent = h.cta_label;
-          cta.setAttribute('href', h.cta_href || '#contacto');
-        }
-        if (photo && h.image) photo.setAttribute('src', h.image);
-
-        if (mTitle && (h.manifiesto_title_line1 || h.manifiesto_title_highlight)) {
-          mTitle.innerHTML = escapeHtml(h.manifiesto_title_line1 || '') + '<br /><em style="font-family:&quot;Cormorant Garamond&quot;">' + escapeHtml(h.manifiesto_title_highlight || '') + '</em>';
-        }
-        if (mBody1 && h.manifiesto_body1) mBody1.textContent = h.manifiesto_body1;
-        if (mBody2 && h.manifiesto_body2) mBody2.textContent = h.manifiesto_body2;
-        if (mSub && h.manifiesto_sub) mSub.textContent = h.manifiesto_sub;
+        if (mBody1 && m.body1) mBody1.textContent = m.body1;
+        if (mBody2 && m.body2) mBody2.textContent = m.body2;
+        if (mSub && m.sub) mSub.textContent = m.sub;
       })
       .catch(function () {
         // sin servidor local: se conserva el contenido ya presente en el HTML
@@ -120,7 +196,9 @@
      Arma la grilla mosaico de "Proyectos" desde data/projects.json vía
      /api/projects. El orden de las 6 clases (g-a, g-b, g-f, g-c, g-d, g-e)
      es el que arma el mosaico prolijo del diseño original; se repite
-     cada 6 proyectos si hay más. */
+     cada 6 proyectos si hay más. Cada tarjeta linkea a la página propia
+     de ese proyecto (ej. "Me Viste La Nona.html") — no una plantilla
+     genérica: cada proyecto conserva su diseño real e individual. */
   var GRID_ORDER = ['g-a', 'g-b', 'g-f', 'g-c', 'g-d', 'g-e'];
 
   (function initProjects() {

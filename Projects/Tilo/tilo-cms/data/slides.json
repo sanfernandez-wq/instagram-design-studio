@@ -1,0 +1,14 @@
+{
+  "slides": [
+    {
+      "id": "slide-1",
+      "image": "assets/hero.webp",
+      "eyebrow": "Diseño pensado estratégicamente",
+      "title_line1": "Menos ruido.",
+      "title_highlight": "Más criterio.",
+      "desc": "Si sentís que tu marca comunica algo pero no termina de decir lo que debería, no es falta de talento. Es falta de foco, sistema y continuidad.",
+      "cta_label": "Quiero elevar mi marca",
+      "cta_href": "#contacto"
+    }
+  ]
+}

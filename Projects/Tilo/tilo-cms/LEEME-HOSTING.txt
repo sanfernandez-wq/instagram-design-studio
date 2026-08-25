@@ -1,0 +1,72 @@
+Cómo subir el CMS de Tilo Estudio a tu hosting
+================================================
+
+Esto reemplaza la versión de prueba local (server.py, en Python) por una
+que corre en cualquier hosting compartido con PHP — que es justo lo que
+tenés. El sitio y el panel quedan funcionando igual, con dos backends
+distintos según dónde estés:
+
+  - En tu compu:  server.py (Python)   → NO se sube al hosting
+  - En tu web:    api.php (PHP)         → SÍ se sube al hosting
+
+PASO 1 — Cambiar la contraseña del panel
+------------------------------------------
+Abrí el archivo config.php con un editor de texto (TextEdit sirve) y
+vas a ver esto:
+
+    'ADMIN_PASSWORD_HASH' => '$2y$12$....',
+
+Esa es la contraseña por defecto ("tilo2026"). Para poner la tuya,
+abrí la Terminal, pegá esto (cambiando "tu-contraseña-nueva" por la
+que quieras usar):
+
+    php -r "echo password_hash('tu-contraseña-nueva', PASSWORD_DEFAULT), PHP_EOL;"
+
+Te va a imprimir un código larguísimo que arranca con $2y$. Copialo
+completo y pegalo en config.php, reemplazando el que está entre
+comillas simples. Guardá el archivo.
+
+(Si tu compu no tiene PHP instalado, avisame y lo genero yo.)
+
+PASO 2 — Qué archivos subir por FTP
+--------------------------------------
+Subí TODA esta carpeta (tilo-cms) tal cual, a la raíz de tu hosting
+(donde hoy vive tu sitio actual — esto lo reemplaza). Asegurate de que
+tu programa de FTP tenga activada la opción "mostrar archivos ocultos"
+para que suba también:
+
+    .htaccess     ← imprescindible, sin esto /api/ no funciona
+
+NO hace falta subir:
+    server.py     (solo sirve en tu compu)
+    LEEME.txt, LEEME-HOSTING.txt   (son para vos, no para el hosting)
+
+PASO 3 — Proteger la carpeta panel/ con contraseña
+------------------------------------------------------
+Esto es aparte de la contraseña de config.php — es una segunda traba,
+la del propio hosting, para que ni siquiera se pueda ABRIR admin.html
+sin permiso. En cPanel:
+
+  1. Buscá "Privacidad de directorios" (Directory Privacy) en el panel.
+  2. Navegá hasta la carpeta "panel" dentro de tu sitio.
+  3. Activá la protección con contraseña y creá un usuario y clave
+     (pueden ser distintos a los de config.php, mejor así).
+  4. Guardá.
+
+PASO 4 — Probar
+-------------------
+  - Entrá a tiloestudio.com.ar → tiene que verse exactamente igual
+    que hoy.
+  - Entrá a tiloestudio.com.ar/panel/admin.html → primero te va a
+    pedir el usuario/clave de cPanel (paso 3), y al tocar "Guardar
+    cambios" por primera vez en esa pestaña del navegador te va a
+    pedir la contraseña de config.php (paso 1). Después de ponerla
+    bien una vez, no te la vuelve a pedir hasta que cierres esa
+    pestaña.
+  - Si te equivocás de contraseña en el guardado, el panel te avisa
+    "Contraseña incorrecta" y te la vuelve a pedir en el próximo
+    intento.
+
+Si algo no anda (por ejemplo /api/slides da error 404), lo más común
+es que falte el archivo .htaccess o que tu hosting tenga bloqueada esa
+función (se llama "mod_rewrite") — avisame y lo vemos juntas.

@@ -34,41 +34,45 @@
   document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
 
   /* ---- Gallery lightbox ---- */
+  /* Páginas sin .lightbox en el HTML (como proyecto.html) simplemente
+     no tienen este comportamiento — no rompe el resto del script. */
   var lb = document.querySelector('.lightbox');
-  var lbPh = lb.querySelector('.ph');
-  var lbCap = lb.querySelector('.lb-cap');
-  var items = Array.prototype.slice.call(document.querySelectorAll('.gal'));
-  var cur = 0;
+  if (lb) {
+    var lbPh = lb.querySelector('.ph');
+    var lbCap = lb.querySelector('.lb-cap');
+    var items = Array.prototype.slice.call(document.querySelectorAll('.gal'));
+    var cur = 0;
 
-  function showLb(i) {
-    cur = (i + items.length) % items.length;
-    var el = items[cur];
-    var t = el.getAttribute('data-title') || '';
-    var s = el.getAttribute('data-sub') || '';
-    lbPh.setAttribute('data-label', el.querySelector('.ph').getAttribute('data-label'));
-    lbCap.innerHTML = t + (s ? ' <span>' + s + '</span>' : '');
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+    var showLb = function (i) {
+      cur = (i + items.length) % items.length;
+      var el = items[cur];
+      var t = el.getAttribute('data-title') || '';
+      var s = el.getAttribute('data-sub') || '';
+      lbPh.setAttribute('data-label', el.querySelector('.ph').getAttribute('data-label'));
+      lbCap.innerHTML = t + (s ? ' <span>' + s + '</span>' : '');
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    var closeLb = function () { lb.classList.remove('open'); document.body.style.overflow = ''; };
 
-  items.forEach(function (el, i) {
-    el.addEventListener('click', function () {
-      var href = el.getAttribute('data-href');
-      if (href) { window.location.href = href; return; }
-      showLb(i);
+    items.forEach(function (el, i) {
+      el.addEventListener('click', function () {
+        var href = el.getAttribute('data-href');
+        if (href) { window.location.href = href; return; }
+        showLb(i);
+      });
     });
-  });
-  lb.querySelector('.lb-close').addEventListener('click', closeLb);
-  lb.querySelector('.lb-prev').addEventListener('click', function () { showLb(cur - 1); });
-  lb.querySelector('.lb-next').addEventListener('click', function () { showLb(cur + 1); });
-  lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
-  document.addEventListener('keydown', function (e) {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape') closeLb();
-    if (e.key === 'ArrowLeft') showLb(cur - 1);
-    if (e.key === 'ArrowRight') showLb(cur + 1);
-  });
+    lb.querySelector('.lb-close').addEventListener('click', closeLb);
+    lb.querySelector('.lb-prev').addEventListener('click', function () { showLb(cur - 1); });
+    lb.querySelector('.lb-next').addEventListener('click', function () { showLb(cur + 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowLeft') showLb(cur - 1);
+      if (e.key === 'ArrowRight') showLb(cur + 1);
+    });
+  }
 
   /* ---- Contact form (FormSubmit AJAX → hola@tiloestudio.com.ar) ---- */
   var form = document.querySelector('.form');
