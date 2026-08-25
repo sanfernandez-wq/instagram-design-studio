@@ -8,12 +8,12 @@
  * rutas /api/slides, /api/services, etc. para que apunten acá).
  */
 
+session_start();
 header('Content-Type: application/json; charset=utf-8');
 
 $ROOT = __DIR__;
 $DATA_DIR = $ROOT . '/data';
 $ASSET_DIR = $ROOT . '/assets';
-$config = require $ROOT . '/config.php';
 
 $COLLECTIONS = [
     'slides'    => ['file' => $DATA_DIR . '/slides.json',    'key' => 'slides',     'kind' => 'list'],
@@ -28,10 +28,11 @@ function send_json($data, $status = 200) {
     exit;
 }
 
-function require_admin_key($config) {
-    $key = $_SERVER['HTTP_X_ADMIN_KEY'] ?? '';
-    if ($key === '' || !password_verify($key, $config['ADMIN_PASSWORD_HASH'])) {
-        send_json(['ok' => false, 'error' => 'Contraseña incorrecta.'], 401);
+function require_admin_session() {
+    // La sesión la crea panel/index.php al loguearse con la contraseña
+    // de config.php — acá solo hace falta confirmar que ya está logueada.
+    if (empty($_SESSION['tilo_admin'])) {
+        send_json(['ok' => false, 'error' => 'No autenticado. Iniciá sesión en el panel.'], 401);
     }
 }
 
@@ -47,7 +48,7 @@ $name = $_GET['name'] ?? '';
 
 if ($name === 'upload-image') {
     if ($method !== 'POST') send_json(['ok' => false, 'error' => 'method not allowed'], 405);
-    require_admin_key($config);
+    require_admin_session();
 
     $body = json_decode(file_get_contents('php://input'), true) ?: [];
     $dataUrl = $body['dataUrl'] ?? '';
@@ -84,7 +85,7 @@ if ($method === 'GET') {
 }
 
 if ($method === 'POST') {
-    require_admin_key($config);
+    require_admin_session();
 
     $data = json_decode(file_get_contents('php://input'), true);
     if (!is_array($data) || !array_key_exists($col['key'], $data)) {

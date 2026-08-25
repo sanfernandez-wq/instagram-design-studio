@@ -148,7 +148,10 @@
     <h1>Panel de administración — Tilo Estudio</h1>
     <div class="sub">Hero, manifiesto, servicios y proyectos — versión de prueba local</div>
   </div>
-  <a class="view-site" href="../index.html" target="_blank">Ver sitio ↗</a>
+  <div style="display:flex;gap:10px;align-items:center">
+    <a class="view-site" href="../index.html" target="_blank">Ver sitio ↗</a>
+    <a class="view-site" href="index.php?logout=1">Cerrar sesión</a>
+  </div>
 </header>
 
 <div class="wrap">
@@ -385,30 +388,13 @@
 </div>
 
 <script>
-/* ── Contraseña del panel (solo en producción) ──
-   En localhost no pide nada (server.py no la valida). En el hosting
-   real (api.php) hace falta para cualquier POST: se pide una vez por
-   pestaña con prompt() y se guarda en sessionStorage. Si el servidor
-   responde 401, se borra para volver a pedirla en el próximo intento. */
-function isLocalAdmin() {
-  return /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
-}
-function adminHeaders(extra) {
-  var headers = extra || {};
-  if (isLocalAdmin()) return headers;
-  var key = sessionStorage.getItem('tilo_admin_key');
-  if (!key) {
-    key = window.prompt('Contraseña del panel de Tilo Estudio:') || '';
-    sessionStorage.setItem('tilo_admin_key', key);
-  }
-  var out = {};
-  Object.keys(headers).forEach(function (k) { out[k] = headers[k]; });
-  out['X-Admin-Key'] = key;
-  return out;
-}
-function forgetAdminKey() {
-  if (!isLocalAdmin()) sessionStorage.removeItem('tilo_admin_key');
-}
+/* ── Autenticación ──
+   En local (server.py) no hace falta nada. En el hosting real, todo
+   /panel/ queda detrás del login de panel/index.php (sesión de PHP);
+   como fetch() manda las cookies solas al ser mismo sitio, api.php ve
+   esa misma sesión sin que el JS tenga que mandar ninguna contraseña. */
+function adminHeaders(extra) { return extra || {}; }
+function forgetAdminKey() {}
 
 (function () {
   /* ── HERO — SLIDES (lista, carrousel) ── */

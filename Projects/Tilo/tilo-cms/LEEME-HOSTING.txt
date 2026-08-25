@@ -3,8 +3,8 @@ Cómo subir el CMS de Tilo Estudio a tu hosting
 
 Esto reemplaza la versión de prueba local (server.py, en Python) por una
 que corre en cualquier hosting compartido con PHP — que es justo lo que
-tenés. El sitio y el panel quedan funcionando igual, con dos backends
-distintos según dónde estés:
+tenés (Ferozo). El sitio y el panel quedan funcionando igual, con dos
+backends distintos según dónde estés:
 
   - En tu compu:  server.py (Python)   → NO se sube al hosting
   - En tu web:    api.php (PHP)         → SÍ se sube al hosting
@@ -24,48 +24,61 @@ que quieras usar):
 
 Te va a imprimir un código larguísimo que arranca con $2y$. Copialo
 completo y pegalo en config.php, reemplazando el que está entre
-comillas simples. Guardá el archivo.
+comillas simples. Guardá el archivo, y subilo así ya con tu contraseña
+elegida (si ya subiste el de antes, subí este de nuevo para reemplazarlo).
 
 (Si tu compu no tiene PHP instalado, avisame y lo genero yo.)
 
-PASO 2 — Qué archivos subir por FTP
+PASO 2 — Qué archivos subir
 --------------------------------------
-Subí TODA esta carpeta (tilo-cms) tal cual, a la raíz de tu hosting
-(donde hoy vive tu sitio actual — esto lo reemplaza). Asegurate de que
-tu programa de FTP tenga activada la opción "mostrar archivos ocultos"
-para que suba también:
+Por FTP o por el Administrador de Archivos de Ferozo, dentro de
+public_html:
 
-    .htaccess     ← imprescindible, sin esto /api/ no funciona
+  Raíz de public_html:
+    .htaccess     ← imprescindible, sin esto /api/ no funciona (ojo:
+                    en Mac el Finder oculta los archivos que empiezan
+                    con punto — si no lo ves, mostralo con Cmd+Shift+.)
+    api.php
+    config.php
+    index.html    (reemplaza al que ya está)
+
+  Carpeta public_html/panel/ (creála si no existe):
+    admin.html
+    index.php     ← esta es la puerta de entrada con el login
+
+  Carpeta public_html/data/ (creála si no existe):
+    slides.json, manifesto.json, services.json, projects.json
+
+  Carpeta public_html/assets/ (ya existe):
+    cms.js, script.js, styles.css   (reemplazan a los que ya están)
 
 NO hace falta subir:
-    server.py     (solo sirve en tu compu)
-    LEEME.txt, LEEME-HOSTING.txt   (son para vos, no para el hosting)
+    server.py, router-test.php    (solo sirven en tu compu)
+    LEEME.txt, LEEME-HOSTING.txt  (son para vos, no para el hosting)
+    Las 6 páginas de proyecto ni las fotos — esas ya están en tu hosting.
 
-PASO 3 — Proteger la carpeta panel/ con contraseña
-------------------------------------------------------
-Esto es aparte de la contraseña de config.php — es una segunda traba,
-la del propio hosting, para que ni siquiera se pueda ABRIR admin.html
-sin permiso. En cPanel:
+PASO 3 — Cómo entrar al panel
+------------------------------------------
+Andá a tiloestudio.com.ar/panel/ — te va a pedir la contraseña de
+config.php (la del Paso 1) con un formulario de login propio. Una vez
+que entrás, esa sesión te queda guardada en ese navegador: podés
+guardar cambios en Servicios, Proyectos, etc. sin que te la vuelva a
+pedir, hasta que toques "Cerrar sesión" o cierres el navegador.
 
-  1. Buscá "Privacidad de directorios" (Directory Privacy) en el panel.
-  2. Navegá hasta la carpeta "panel" dentro de tu sitio.
-  3. Activá la protección con contraseña y creá un usuario y clave
-     (pueden ser distintos a los de config.php, mejor así).
-  4. Guardá.
+(No hace falta configurar nada aparte en el panel de Ferozo — el login
+lo maneja el propio sitio, así que no depende de que tu hosting tenga
+una función de "privacidad de directorios" o no.)
 
 PASO 4 — Probar
 -------------------
   - Entrá a tiloestudio.com.ar → tiene que verse exactamente igual
     que hoy.
-  - Entrá a tiloestudio.com.ar/panel/admin.html → primero te va a
-    pedir el usuario/clave de cPanel (paso 3), y al tocar "Guardar
-    cambios" por primera vez en esa pestaña del navegador te va a
-    pedir la contraseña de config.php (paso 1). Después de ponerla
-    bien una vez, no te la vuelve a pedir hasta que cierres esa
-    pestaña.
-  - Si te equivocás de contraseña en el guardado, el panel te avisa
-    "Contraseña incorrecta" y te la vuelve a pedir en el próximo
-    intento.
+  - Entrá a tiloestudio.com.ar/panel/ → te pide la contraseña; si la
+    ponés mal te avisa "Contraseña incorrecta" y te deja reintentar.
+  - Con la sesión iniciada, probá editar algo y "Guardar cambios" →
+    tiene que decir "Guardado ✓".
+  - Tocá "Cerrar sesión" arriba a la derecha y confirmá que te vuelve
+    a pedir la contraseña.
 
 Si algo no anda (por ejemplo /api/slides da error 404), lo más común
 es que falte el archivo .htaccess o que tu hosting tenga bloqueada esa
