@@ -1,0 +1,36 @@
+{
+  "_nota": "Texto de ejemplo tomado de la Guia de Estilo v2.0. Reemplazar por el copy real. {palabras} = Lora Italic azul. **texto** = negrita navy.",
+  "fecha": "19-10-2026",
+  "audiencia": "RE/MAX",
+  "badge": "Novedades · Octubre 2026",
+
+  "etiqueta": "Garantía de fianza 100% online",
+  "titulo": "Mudate, sin {garantía propietaria}",
+  "bajada": "Sacá tu garantía 100% online y entrá a tu nuevo alquiler.",
+
+  "intro": "Con Garantor, **alquilar nunca fue tan fácil**: tus clientes sacan su garantía online, sin trámites interminables ni depender de un tercero con propiedad.",
+
+  "puntos_titulo": "Por qué {Garantor}",
+  "puntos": [
+    {"icono": "rapidez",   "label": "Rapidez",     "texto": "Aprobación y gestión ágil, pensada para el ritmo real de un alquiler."},
+    {"icono": "seguridad", "label": "Seguridad",   "texto": "Respaldo real para quien alquila y para quien es propietario."},
+    {"icono": "contrato",  "label": "Simplicidad", "texto": "Procesos claros, sin letra chica ni trámites innecesarios."},
+    {"icono": "soporte",   "label": "Cercanía",    "texto": "Comunicación humana y directa, con un equipo que responde."}
+  ],
+
+  "frase": "Alquilar nunca fue {tan fácil}",
+  "cta": "Pedí tu garantía",
+  "cta_link": "#",
+  "nota": "100% online · simple, rápida y segura",
+
+  "cierre_titulo": "¿Tenés alguna duda?",
+  "cierre_texto": "Escribinos por WhatsApp al <b>+54 9 11 7203-7777</b> o entrá a <b>www.garantor.com.ar</b>",
+  "firma": "Equipo Garantor",
+  "firma_linea": "Parte de tu equipo, {en cada cierre}",
+
+  "placa1_titulo": "Mudate, sin {garantía propietaria}",
+  "placa1_bajada": "Sacá tu garantía 100% online y entrá a tu nuevo alquiler.",
+  "placa2_titulo": "Por qué {Garantor}",
+
+  "foto_foco": [0.62, 0.5]
+}
